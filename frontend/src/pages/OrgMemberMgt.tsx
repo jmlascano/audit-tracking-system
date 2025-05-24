@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import axios from  "axios";
 import { useEffect, useState } from "react";
 
@@ -30,14 +31,26 @@ interface Member {
 
 const OrgMemberMgt = () => {
   const [members, setMembers] = useState<Member[]>([]);
-    const [selectedStatus, setSelectedStatus] = useState<string>("All");
+    const [filters, setFilters] = useState({
+    status: "All",
+    gender: "All",
+    committee_role: "",
+    degree_program: "",
+    batch: "",
+    acad_year: "",
+    acad_sem: ""
+  });
 
     // TODO: Connect with the logged in user or smth
     const org_id = 1; 
 
-    const fetchMembers = async (statusFilter: string = "All") => {
+    const fetchMembers = async () => {
     try {
-      const params = statusFilter !== "All" ? { status: statusFilter } : {};
+      const params = Object.fromEntries(
+        Object.entries(filters).filter(
+          ([key, value]) => value !== "All" && value !== ""
+        )
+      );
       
       const response = await axios.get(
         `http://localhost:8080/orgs/${org_id}/members`,
@@ -50,15 +63,19 @@ const OrgMemberMgt = () => {
   };
 
   useEffect(() => {
-    fetchMembers(selectedStatus);
-  }, [selectedStatus]); // Re-fetch when selectedStatus changes
+    fetchMembers();
+  }, [filters]); // Re-fetch when any filter changes
 
-  const handleStatusChange = (value: string) => {
-    setSelectedStatus(value);
+  const handleFilterChange = (field: string, value: string) => {
+    setFilters(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
     <>
+      <div className="p-8">Temporary "navbar" ito (hehe sorry guys di talaga ako magaling magdesign ng frontend!! ui/ux tsaka logic lang talaga ako huhu pero guys i believe in u guys sobra ty for being my groupmates ˚ʚ♡ɞ˚)</div>
         <h1 className="text-xl font-bold px-8">Member Management</h1>
         <div className="min-h-screen flex flex-col m-8">
             <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
@@ -68,27 +85,87 @@ const OrgMemberMgt = () => {
                         <TableHead className="text-center" >Name</TableHead>
                         <TableHead >
                             <div className="flex justify-center">
-                                <Select defaultValue="All" onValueChange={handleStatusChange} >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="All">All Status</SelectItem>
-                                        <SelectItem value="Active">Active</SelectItem>
-                                        <SelectItem value="Inactive">Inactive</SelectItem>
-                                        <SelectItem value="Suspended">Suspended</SelectItem>
-                                        <SelectItem value="Expelled">Expelled</SelectItem>
-                                        <SelectItem value="Alumni">Alumni</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                            <Select
+                                value={filters.status}
+                                onValueChange={(value) => handleFilterChange("status", value)}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="All">All Status</SelectItem>
+                                    <SelectItem value="Active">Active</SelectItem>
+                                    <SelectItem value="Inactive">Inactive</SelectItem>
+                                    <SelectItem value="Suspended">Suspended</SelectItem>
+                                    <SelectItem value="Expelled">Expelled</SelectItem>
+                                    <SelectItem value="Alumni">Alumni</SelectItem>
+                                </SelectContent>
+                            </Select>
                             </div>
                         </TableHead>
-                        <TableHead className="text-center" >Committee Role</TableHead>
-                        <TableHead className="text-center" >Gender</TableHead>
-                        <TableHead className="text-center" >Degree Program</TableHead>
-                        <TableHead className="text-center" >Batch</TableHead>
-                        <TableHead className="text-center" >Academic Year</TableHead>
-                        <TableHead className="text-center" >Academic Sem</TableHead>
+                        <TableHead >
+                            <div className="flex justify-center">
+                            <Input
+                                placeholder="Search role..."
+                                value={filters.committee_role}
+                                onChange={(e) => handleFilterChange("committee_role", e.target.value)}
+                            />
+                            </div>
+                        </TableHead>
+                        <TableHead >
+                            <div className="flex justify-center">
+                            <Select
+                                value={filters.gender}
+                                onValueChange={(value) => handleFilterChange("gender", value)}
+                            >
+                                <SelectTrigger>
+                                <SelectValue placeholder="Gender" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                <SelectItem value="All">All Genders</SelectItem>
+                                <SelectItem value="Male">Male</SelectItem>
+                                <SelectItem value="Female">Female</SelectItem>
+                                <SelectItem value="Other">Other</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            </div>
+                        </TableHead>
+                        <TableHead >
+                            <div className="flex justify-center">
+                            <Input
+                                placeholder="Search program..."
+                                value={filters.degree_program}
+                                onChange={(e) => handleFilterChange("degree_program", e.target.value)}
+                            />
+                            </div>
+                        </TableHead>
+                        <TableHead>
+                            <div className="flex justify-center">
+                            <Input
+                                placeholder="Search batch..."
+                                value={filters.batch}
+                                onChange={(e) => handleFilterChange("batch", e.target.value)}
+                            />
+                            </div>
+                        </TableHead>
+                        <TableHead>
+                            <div className="flex justify-center">
+                            <Input
+                                placeholder="Search year..."
+                                value={filters.acad_year}
+                                onChange={(e) => handleFilterChange("acad_year", e.target.value)}
+                            />
+                            </div>
+                        </TableHead>
+                        <TableHead>
+                            <div className="flex justify-center">
+                            <Input
+                                placeholder="Search semester..."
+                                value={filters.acad_sem}
+                                onChange={(e) => handleFilterChange("acad_sem", e.target.value)}
+                            />
+                            </div>
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
