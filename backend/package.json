@@ -1,9 +1,11 @@
 {
+  "type": "module",
   "name": "org_mgt_backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend server for Org Management App",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,5 +15,8 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mariadb": "^3.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
