@@ -19,7 +19,7 @@ export const getAllOrgs = async (req, res) => {
 export const getMembersByOrg = async (req, res) => {
   try {
     const { orgId } = req.params;
-    const { semesters, acad_year, acad_sem, status, batch, committee_role, degree_program } = req.query; // TODO: Figure out past N semesters filter 
+    const { semesters, acad_year, acad_sem, status, batch, committee_role, degree_program, gender } = req.query; // TODO: Figure out past N semesters filter 
 
     let query = `
       SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee_role, mpo.status
@@ -54,7 +54,11 @@ export const getMembersByOrg = async (req, res) => {
       query += ' AND m.degree_program = ?';
       params.push(degree_program);
     }
-
+    if (gender) {
+      query += ' AND m.gender = ?';
+      params.push(gender);
+    }
+    
     // Sort current to past
     query += ' ORDER BY mpo.acad_year DESC, mpo.acad_sem DESC';
 
