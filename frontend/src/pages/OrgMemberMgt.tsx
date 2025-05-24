@@ -5,7 +5,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import axios from  "axios";
 import { useEffect, useState } from "react";
 
@@ -23,23 +30,35 @@ interface Member {
 
 const OrgMemberMgt = () => {
   const [members, setMembers] = useState<Member[]>([]);
-    const org_id = 1;
+    const [selectedStatus, setSelectedStatus] = useState<string>("All");
 
-    useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/orgs/${org_id}/members`);
-        setMembers(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchAccounts();
-  }, []);
+    // TODO: Connect with the logged in user or smth
+    const org_id = 1; 
+
+    const fetchMembers = async (statusFilter: string = "All") => {
+    try {
+      const params = statusFilter !== "All" ? { status: statusFilter } : {};
+      
+      const response = await axios.get(
+        `http://localhost:8080/orgs/${org_id}/members`,
+        { params }
+      );
+      setMembers(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMembers(selectedStatus);
+  }, [selectedStatus]); // Re-fetch when selectedStatus changes
+
+  const handleStatusChange = (value: string) => {
+    setSelectedStatus(value);
+  };
 
   return (
     <>
-    <div className="p-8">Temporary "navbar" ito haha guys mas prefer ko yung logic side of things kaysa design sa code haha sorry walang ka design design ito huhu</div>
         <h1 className="text-xl font-bold px-8">Member Management</h1>
         <div className="min-h-screen flex flex-col m-8">
             <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
@@ -47,7 +66,23 @@ const OrgMemberMgt = () => {
                     <TableRow className="font-bold">
                         <TableHead className="text-center" >ID</TableHead>
                         <TableHead className="text-center" >Name</TableHead>
-                        <TableHead className="text-center" >Status</TableHead>
+                        <TableHead >
+                            <div className="flex justify-center">
+                                <Select defaultValue="All" onValueChange={handleStatusChange} >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="All">All Status</SelectItem>
+                                        <SelectItem value="Active">Active</SelectItem>
+                                        <SelectItem value="Inactive">Inactive</SelectItem>
+                                        <SelectItem value="Suspended">Suspended</SelectItem>
+                                        <SelectItem value="Expelled">Expelled</SelectItem>
+                                        <SelectItem value="Alumni">Alumni</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </TableHead>
                         <TableHead className="text-center" >Committee Role</TableHead>
                         <TableHead className="text-center" >Gender</TableHead>
                         <TableHead className="text-center" >Degree Program</TableHead>
