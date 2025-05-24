@@ -1,7 +1,7 @@
 import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-// import { router } from "./routers/router.js";
+import { router } from "./routers/router.js";
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ console.clear();
 console.log("\x1b[35m\x1b[1m%s\x1b[0m", "˚ʚ♡ɞ˚ Backend Server ˚ʚ♡ɞ˚\n");
 
 // App Router
-// router(app);
+router(app);
 
 const port = process.env.PORT;
 
