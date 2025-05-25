@@ -42,9 +42,9 @@ const Login = () => {
 
         // Redirect based on user type
         if (response.data.userType === 'org') {
-          navigate('/org-member-mgt');
+          navigate('/org');
         } else {
-          navigate('/member-fee-mgt');
+          navigate('/member');
         }
       } else {
         toast.error('Invalid credentials');
