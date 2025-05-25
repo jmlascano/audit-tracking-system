@@ -151,7 +151,7 @@ const OrgMemberMgt = () => {
                         <TableHead>
                             <div className="flex justify-center">
                             <Input
-                                placeholder="Search year..."
+                                placeholder="Search academic year..."
                                 value={filters.acad_year}
                                 onChange={(e) => handleFilterChange("acad_year", e.target.value)}
                             />
@@ -159,11 +159,20 @@ const OrgMemberMgt = () => {
                         </TableHead>
                         <TableHead>
                             <div className="flex justify-center">
-                            <Input
-                                placeholder="Search semester..."
+                            <Select
                                 value={filters.acad_sem}
-                                onChange={(e) => handleFilterChange("acad_sem", e.target.value)}
-                            />
+                                onValueChange={(value) => handleFilterChange("acad_sem", value)}
+                            >
+                                <SelectTrigger>
+                                <SelectValue placeholder="Academic Semester" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                <SelectItem value="All">All Sems</SelectItem>
+                                <SelectItem value="1">1st Sem</SelectItem>
+                                <SelectItem value="2">2nd Sem</SelectItem>
+                                <SelectItem value="m">Midyear</SelectItem>
+                                </SelectContent>
+                            </Select>
                             </div>
                         </TableHead>
                     </TableRow>
