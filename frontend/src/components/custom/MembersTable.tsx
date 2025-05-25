@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil } from 'lucide-react';
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Plus } from 'lucide-react';
 import axios from  "axios";
 import { useEffect, useState } from "react";
 
@@ -81,7 +80,18 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <h1 className="text-xl font-bold font-inter pb-4">Member Management</h1>
+        <div className="flex justify-between">
+            <h1 className="text-xl font-bold font-inter pb-4">Member Management</h1>
+            <div className="flex gap-4">
+                <Input 
+                    className="max-w-[200px]" 
+                    placeholder="Search members..."
+                />
+                <Button variant="outline">
+                    <Plus />
+                </Button>
+            </div>
+        </div>
         <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
             <TableHeader>
                 <TableRow className="font-bold font-inter">
