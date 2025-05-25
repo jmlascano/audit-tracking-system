@@ -76,11 +76,11 @@ const OrgMemberMgt = () => {
   return (
     <>
       <div className="p-8">Temporary "navbar" ito (hehe sorry guys di talaga ako magaling magdesign ng frontend!! ui/ux tsaka logic lang talaga ako huhu pero guys i believe in u guys sobra ty for being my groupmates ˚ʚ♡ɞ˚)</div>
-        <h1 className="text-xl font-bold px-8">Member Management</h1>
+        <h1 className="text-xl px-8 font-founders">Member Management</h1>
         <div className="min-h-screen flex flex-col m-8">
             <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
                 <TableHeader>
-                    <TableRow className="font-bold">
+                    <TableRow className="font-bold font-inter">
                         <TableHead className="text-center" >ID</TableHead>
                         <TableHead className="text-center" >Name</TableHead>
                         <TableHead >
@@ -179,7 +179,7 @@ const OrgMemberMgt = () => {
                 </TableHeader>
                 <TableBody>
                     {members.map((member) => (
-                    <TableRow key={member.member_id} className="text-center">
+                    <TableRow key={member.member_id} className="text-center font-inter">
                         <TableCell>{member.member_id}</TableCell>
                         <TableCell>{member.member_name}</TableCell>
                         <TableCell>{member.status}</TableCell>
