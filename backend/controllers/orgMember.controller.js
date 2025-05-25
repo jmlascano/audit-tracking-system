@@ -111,3 +111,36 @@ export const addMemberToOrg = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Update Member Organization Status
+export const updateMemberOrgStatus = async (req, res) => {
+  try {
+    const { orgId, memberId } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ error: 'Status is required' });
+    }
+
+    const updateQuery = `
+      UPDATE member_part_of_org 
+      SET status = ? 
+      WHERE member_id = ? AND org_id = ?
+    `;
+
+    const result = await db.query(updateQuery, [status, memberId, orgId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Member not found in organization' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Member status updated successfully'
+    });
+
+  } catch (error) {
+    console.error('Update member org status error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
