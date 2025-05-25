@@ -21,6 +21,7 @@ import AddMemberDialog from "./AddMemberDialog";
 import EditMemberDialog from "./EditMemberDialog";
 import DeleteMemberDialog from "./DeleteMemberDialog";
 import OrgMemberStats from "./OrgMemberStats";
+import OrgEvents from "./OrgEvents";
 
 interface Member {
   member_id: number;
@@ -231,8 +232,9 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
               </TableBody>
           </Table>
           {/* OTHER STATS */}
-          <div className="flex flex-col mb-4">
+          <div className="flex flex-col mb-4 gap-4">
             <OrgMemberStats org_id={org_id} />
+            <OrgEvents org_id={org_id} />
           </div>
         </div>
     </div>
