@@ -39,15 +39,14 @@ export const searchAndFilterMembers = async (req, res) => {
     
     const queryParams = [orgId];
     
+    // FIX: buggy
     // Add search conditions if search term exists
     if (q) {
       baseQuery += ` AND (
-        m.member_name LIKE ? OR 
-        m.member_username LIKE ? OR 
-        m.member_email LIKE ?
+        m.member_name LIKE ?
       )`;
       const searchTerm = `%${q}%`;
-      queryParams.push(searchTerm, searchTerm, searchTerm);
+      queryParams.push(searchTerm);
     }
     
     // Add filter conditions

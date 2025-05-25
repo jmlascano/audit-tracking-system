@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import axios from  "axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import AddMemberDialog from "./AddMemberDialog";
 import EditMemberDialog from "./EditMemberDialog";
 import DeleteMemberDialog from "./DeleteMemberDialog";
@@ -52,7 +52,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
     acad_sem: ""
   });
 
-    const fetchMembers = useCallback(async () => {
+    const fetchMembers = async () => {
+      setMembers([]); // clear table before every fetch because buggy
     try {
       // For the filter
       const params = Object.fromEntries(
@@ -65,16 +66,20 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
       if (searchTerm.trim()) {
         params.q = searchTerm;
       }
+
+      console.log("Sending filters:", params); // debugging
       
       const response = await axios.get(
         `http://localhost:8080/orgs/${org_id}/members`,
         { params }
       );
+
+      console.log("Received data:", response.data); // debugging
       setMembers(response.data);
     } catch (error) {
       console.error("Error:", error);
     }
-  }, [org_id, filters, searchTerm]);
+  };
 
   useEffect(() => {
     // To avoid too many API calls at once
@@ -214,7 +219,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
               </TableHeader>
               <TableBody>
                   {members.map((member) => (
-                  <TableRow key={member.member_id} className="text-center font-inter">
+                  <TableRow className="text-center font-inter" key={`${member.member_id}-${member.acad_year}-${member.acad_sem}`}>
                       <TableCell>{member.member_name}</TableCell>
                       <TableCell>{member.status}</TableCell>
                       <TableCell>{member.committee_role}</TableCell>
