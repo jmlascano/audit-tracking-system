@@ -23,11 +23,13 @@ import { toast } from "sonner";
 interface AddMemberDialogProps {
   org_id: number;
   member_id: number;
+  acad_year: number;
+  acad_sem: string;
   old_status: string;
   orgMemberEdited?: () => void;
 }
 
-const AddMemberDialog = ({ org_id, member_id, old_status, orgMemberEdited }: AddMemberDialogProps) => {
+const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, orgMemberEdited }: AddMemberDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [newStatus, setNewStatus] = useState<string>(old_status);
@@ -36,7 +38,11 @@ const AddMemberDialog = ({ org_id, member_id, old_status, orgMemberEdited }: Add
     setIsLoading(true);
     try {
       await axios.put(`http://localhost:8080/orgs/${org_id}/members/${member_id}`, 
-        { status: newStatus }
+        {
+          acad_year: acad_year,
+          acad_sem: acad_sem,
+          status: newStatus 
+        }
     );
       
       toast.success("Successfully edited member!");

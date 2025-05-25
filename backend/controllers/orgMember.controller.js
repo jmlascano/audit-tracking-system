@@ -148,7 +148,7 @@ export const addMemberToOrg = async (req, res) => {
 export const updateMemberOrgStatus = async (req, res) => {
   try {
     const { orgId, memberId } = req.params;
-    const { status } = req.body;
+    const { acad_year, acad_sem, status } = req.body;
 
     if (!status) {
       return res.status(400).json({ error: 'Status is required' });
@@ -157,10 +157,10 @@ export const updateMemberOrgStatus = async (req, res) => {
     const updateQuery = `
       UPDATE member_part_of_org 
       SET status = ? 
-      WHERE member_id = ? AND org_id = ?
+      WHERE member_id = ? AND org_id = ? AND acad_year = ? AND acad_sem = ?
     `;
 
-    const result = await db.query(updateQuery, [status, memberId, orgId]);
+    const result = await db.query(updateQuery, [status, memberId, orgId, acad_year, acad_sem]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Member not found in organization' });

@@ -229,7 +229,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableCell>{member.acad_year}</TableCell>
                       <TableCell>{member.acad_sem}</TableCell>
                       <TableCell className="flex gap-2">
-                          <EditMemberDialog org_id={org_id} member_id={member.member_id} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
+                          <EditMemberDialog org_id={org_id} member_id={member.member_id} acad_year={member.acad_year} acad_sem={member.acad_sem} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
                           <DeleteMemberDialog org_id={org_id} member_id={member.member_id} orgMemberDeleted={() => fetchMembers()}/>
                       </TableCell>
                   </TableRow>
