@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
 };
 
 // Signup Member
-const signupMember = async (req, res) => {
+export const signupMember = async (req, res) => {
   try {
     const {
       member_email,
@@ -97,7 +97,7 @@ const signupMember = async (req, res) => {
 };
 
 // Signup Organization
-const signupOrg = async (req, res) => {
+export const signupOrg = async (req, res) => {
   try {
     const {
       org_email,
