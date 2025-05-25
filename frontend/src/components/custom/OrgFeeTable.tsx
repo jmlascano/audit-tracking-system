@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ConfirmDialog from "@/components/ui/ConfirmDialog"; // Import ConfirmDialog
 import { Pencil, Trash2, Search } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import axios from "axios";
@@ -103,8 +104,6 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
       await axios.delete(`http://localhost:8080/orgs/${org_id}/fees/${fee_id}`);
       await fetchFees();
       await fetchStats();
-      setIsDialogOpen(false);
-      setFeeToDelete(null);
     } catch (error) {
       console.error("Error deleting fee:", error);
     } finally {
@@ -186,7 +185,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
     return true;
   });
 
-  //  stats for filtered fees
+  // Compute stats for filtered fees
   const filteredStats = {
     totalAmount: filteredFees
       .filter(fee => fee.isPaid)
@@ -284,7 +283,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                   <span className="font-medium text-red-600">Unpaid Fees:</span> {filteredStats.unpaidCount}
                 </p>
                 <p className="text-sm text-gray-700">
-                  <span className="font-medium text-blue-600">Total Amount:</span>
+                  <span className="font-medium text-blue-600">Total Paid Amount:</span>
                   ₱{filteredStats.totalAmount.toLocaleString()}
                 </p>
               </div>
@@ -464,37 +463,18 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
         )}
       </AnimatePresence>
 
-      {isDialogOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-          <div className="fixed inset-0 bg-black/20" onClick={() => {
-            setIsDialogOpen(false);
-            setFeeToDelete(null);
-          }}></div>
-          <div className="relative bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
-            <h3 className="text-lg font-semibold mb-2">Confirm Delete</h3>
-            <p className="text-gray-600 mb-4">
-              Are you sure you want to delete this fee? This action cannot be undone.
-            </p>
-            <div className="flex gap-2 justify-end">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setIsDialogOpen(false);
-                  setFeeToDelete(null);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button 
-                className="bg-red-600 hover:bg-red-700"
-                onClick={() => feeToDelete && handleDelete(feeToDelete)}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={isDialogOpen}
+        onClose={() => {
+          setIsDialogOpen(false);
+          setFeeToDelete(null);
+        }}
+        onConfirm={() => feeToDelete && handleDelete(feeToDelete)}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this fee? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </div>
   );
 };
