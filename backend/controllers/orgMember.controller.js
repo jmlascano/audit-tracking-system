@@ -19,8 +19,7 @@ export const getAllOrgs = async (req, res) => {
 export const searchAndFilterMembers = async (req, res) => {
   try {
     const { orgId } = req.params;
-    const { 
-      semesters, // TODO: Figure out past N semesters filter
+    const {
       q, 
       status,
       gender,
