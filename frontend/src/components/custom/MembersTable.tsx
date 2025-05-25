@@ -20,6 +20,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import axios from  "axios";
 import { useEffect, useState } from "react";
 import AddMemberDialog from "./AddMemberDialog";
+import EditMemberDialog from "./EditMemberDialog";
 
 interface Member {
   member_id: number;
@@ -201,9 +202,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                     <TableCell>{member.acad_year}</TableCell>
                     <TableCell>{member.acad_sem}</TableCell>
                     <TableCell className="flex gap-2">
-                        <Button variant="outline">
-                            <Pencil />
-                        </Button>
+                        <EditMemberDialog org_id={org_id} member_id={member.member_id} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
                         <Button variant="outline">
                             <Trash2 />
                         </Button>
