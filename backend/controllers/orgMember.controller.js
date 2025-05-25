@@ -233,7 +233,7 @@ export const getOrgMemberStats = async (req, res) => {
         
         // Move to previous semester
         if (sem === '1') {
-          year--;
+          year = year - 101;
           sem = 'm';
         } else if (sem === 'm') {
           sem = '2';
