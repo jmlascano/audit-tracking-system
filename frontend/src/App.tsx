@@ -1,10 +1,11 @@
-// import ColorPreview from "./pages/ColorPreview.tsx";
-import OrgMemberMgt from "./pages/OrgMemberMgt.tsx";
+import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <OrgMemberMgt />
+    <div className="min-h-screen flex flex-col justify-center items-center gap-4">
+      Landing page
+      <Button variant="outline"><Link to="/login">Log in</Link></Button>
     </div>
   );
 }
