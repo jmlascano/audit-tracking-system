@@ -21,6 +21,7 @@ import axios from  "axios";
 import { useEffect, useState } from "react";
 import AddMemberDialog from "./AddMemberDialog";
 import EditMemberDialog from "./EditMemberDialog";
+import DeleteMemberDialog from "./DeleteMemberDialog";
 
 interface Member {
   member_id: number;
@@ -203,9 +204,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                     <TableCell>{member.acad_sem}</TableCell>
                     <TableCell className="flex gap-2">
                         <EditMemberDialog org_id={org_id} member_id={member.member_id} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
-                        <Button variant="outline">
-                            <Trash2 />
-                        </Button>
+                        <DeleteMemberDialog org_id={org_id} member_id={member.member_id} orgMemberDeleted={() => fetchMembers()}/>
                     </TableCell>
                 </TableRow>
                 ))}
