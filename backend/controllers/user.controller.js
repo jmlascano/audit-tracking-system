@@ -84,7 +84,7 @@ export const signupMember = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'Member registered successfully',
-      memberId: result.insertId
+      memberId: result.insertId.toString
     });
 
   } catch (error) {
