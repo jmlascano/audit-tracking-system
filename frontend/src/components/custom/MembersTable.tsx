@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, Plus } from 'lucide-react';
 import axios from  "axios";
 import { useEffect, useState } from "react";
+import AddMemberDialog from "./AddMemberDialog";
 
 interface Member {
   member_id: number;
@@ -77,7 +78,6 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
     }));
   };
 
-
   return (
     <div className="min-h-screen flex flex-col">
         <div className="flex justify-between">
@@ -87,9 +87,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                     className="max-w-[200px]" 
                     placeholder="Search members..."
                 />
-                <Button variant="outline">
-                    <Plus />
-                </Button>
+                <AddMemberDialog />
             </div>
         </div>
         <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
