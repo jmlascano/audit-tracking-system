@@ -17,17 +17,19 @@ import { toast } from "sonner";
 interface DeleteMemberDialogProps {
   org_id: number;
   member_id: number;
+  acad_year: number;
+  acad_sem: string;
   orgMemberDeleted?: () => void;
 }
 
-const DeleteMemberDialog = ({ org_id, member_id, orgMemberDeleted }: DeleteMemberDialogProps) => {
+const DeleteMemberDialog = ({ org_id, member_id, acad_year, acad_sem, orgMemberDeleted }: DeleteMemberDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8080/orgs/${org_id}/members/${member_id}`);
+      await axios.delete(`http://localhost:8080/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`);
       
       toast.success("Successfully deleted member!");
       setIsOpen(false); 

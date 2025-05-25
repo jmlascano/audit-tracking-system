@@ -147,8 +147,8 @@ export const addMemberToOrg = async (req, res) => {
 // Update Member Organization Status
 export const updateMemberOrgStatus = async (req, res) => {
   try {
-    const { orgId, memberId } = req.params;
-    const { acad_year, acad_sem, status } = req.body;
+    const { orgId, memberId, acadYear, acadSem } = req.params;
+    const { status } = req.body;
 
     if (!status) {
       return res.status(400).json({ error: 'Status is required' });
@@ -160,7 +160,7 @@ export const updateMemberOrgStatus = async (req, res) => {
       WHERE member_id = ? AND org_id = ? AND acad_year = ? AND acad_sem = ?
     `;
 
-    const result = await db.query(updateQuery, [status, memberId, orgId, acad_year, acad_sem]);
+    const result = await db.query(updateQuery, [status, memberId, orgId, acadYear, acadSem]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Member not found in organization' });
@@ -180,10 +180,10 @@ export const updateMemberOrgStatus = async (req, res) => {
 // Remove Member from Organization
 export const removeMemberFromOrg = async (req, res) => {
   try {
-    const { orgId, memberId } = req.params;
+    const { orgId, memberId, acadYear, acadSem } = req.params;
 
-    const deleteQuery = 'DELETE FROM member_part_of_org WHERE member_id = ? AND org_id = ?';
-    const result = await db.query(deleteQuery, [memberId, orgId]);
+    const deleteQuery = 'DELETE FROM member_part_of_org WHERE member_id = ? AND org_id = ? AND acad_year = ? AND acad_sem = ?';
+    const result = await db.query(deleteQuery, [memberId, orgId, acadYear, acadSem]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Member not found in organization' });

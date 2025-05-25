@@ -37,10 +37,8 @@ const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, o
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:8080/orgs/${org_id}/members/${member_id}`, 
+      await axios.put(`http://localhost:8080/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`, 
         {
-          acad_year: acad_year,
-          acad_sem: acad_sem,
           status: newStatus 
         }
     );
