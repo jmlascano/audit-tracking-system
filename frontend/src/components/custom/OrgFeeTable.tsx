@@ -188,7 +188,9 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
 
   //  stats for filtered fees
   const filteredStats = {
-    totalAmount: filteredFees.reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
+    totalAmount: filteredFees
+      .filter(fee => fee.isPaid)
+      .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
     paidCount: filteredFees.filter(fee => fee.isPaid).length,
     unpaidCount: filteredFees.filter(fee => !fee.isPaid).length,
     highestDebt: filteredFees.reduce((max, fee) => {
