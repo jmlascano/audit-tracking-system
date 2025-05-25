@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import axios from  "axios";
 import { useEffect, useState } from "react";
 import AddMemberDialog from "./AddMemberDialog";
@@ -87,7 +87,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                     className="max-w-[200px]" 
                     placeholder="Search members..."
                 />
-                <AddMemberDialog />
+                <AddMemberDialog org_id={org_id} onMemberAdded={() => fetchMembers()}/>
             </div>
         </div>
         <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
