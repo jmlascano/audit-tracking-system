@@ -201,3 +201,80 @@ export const removeMemberFromOrg = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Get Organization Member Statistics
+export const getOrgMemberStats = async (req, res) => {
+  try {
+    const { orgId } = req.params;
+    const { n } = req.query;
+
+    let query = `
+      SELECT 
+        COUNT(CASE WHEN status = 'Active' THEN 1 END) as active_count,
+        COUNT(CASE WHEN status != 'Active' THEN 1 END) as inactive_count,
+        COUNT(*) as total_count
+      FROM member_part_of_org 
+      WHERE org_id = ?
+    `;
+    
+    const queryParams = [orgId];
+
+    // If n is provided, filter for last n semesters
+    if (n && !isNaN(n) && parseInt(n) > 0) {
+      // Assume current semester is acad_sem 2 and acad_year 2425
+      const currentYear = 2425;
+      const currentSem = '2';
+      
+      // Generate the last n semesters
+      const semesters = [];
+      let year = currentYear;
+      let sem = currentSem;
+      
+      for (let i = 0; i < parseInt(n); i++) {
+        semesters.push({ year, sem });
+        
+        // Move to previous semester
+        if (sem === '1') {
+          year--;
+          sem = 'm';
+        } else if (sem === 'm') {
+          sem = '2';
+        } else if (sem === '2') {
+          sem = '1';
+        }
+      }
+      
+      // Build WHERE clause for the semesters
+      const semesterConditions = semesters.map(() => '(acad_year = ? AND acad_sem = ?)').join(' OR ');
+      query += ` AND (${semesterConditions})`;
+      
+      // Add parameters for each semester
+      semesters.forEach(s => {
+        queryParams.push(s.year, s.sem);
+      });
+    }
+
+    const result = await db.query(query, queryParams);
+    
+    const stats = result[0];
+    const activeCount = parseInt(stats.active_count) || 0;
+    const inactiveCount = parseInt(stats.inactive_count) || 0;
+    const totalCount = parseInt(stats.total_count) || 0;
+    
+    // Calculate percentages
+    const activePercentage = totalCount > 0 ? ((activeCount / totalCount) * 100).toFixed(2) : 0;
+    const inactivePercentage = totalCount > 0 ? ((inactiveCount / totalCount) * 100).toFixed(2) : 0;
+
+    return res.status(200).json({
+      active_count: activeCount,
+      inactive_count: inactiveCount,
+      total_count: totalCount,
+      active_percentage: parseFloat(activePercentage),
+      inactive_percentage: parseFloat(inactivePercentage)
+    });
+
+  } catch (error) {
+    console.error('Get org member stats error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
