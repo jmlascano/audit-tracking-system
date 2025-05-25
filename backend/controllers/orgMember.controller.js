@@ -144,3 +144,26 @@ export const updateMemberOrgStatus = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Remove Member from Organization
+export const removeMemberFromOrg = async (req, res) => {
+  try {
+    const { orgId, memberId } = req.params;
+
+    const deleteQuery = 'DELETE FROM member_part_of_org WHERE member_id = ? AND org_id = ?';
+    const result = await db.query(deleteQuery, [memberId, orgId]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Member not found in organization' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Member remoed from organization successfully'
+    });
+
+  } catch (error) {
+    console.error('Remove member from org error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
