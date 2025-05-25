@@ -15,58 +15,92 @@ export const getAllOrgs = async (req, res) => {
   }
 }
 
-// Get Members by Organization
-export const getMembersByOrg = async (req, res) => {
+// Search and Filter Members
+export const searchAndFilterMembers = async (req, res) => {
   try {
     const { orgId } = req.params;
-    const { semesters, acad_year, acad_sem, status, batch, committee_role, degree_program, gender } = req.query; // TODO: Figure out past N semesters filter 
+    const { 
+      semesters, // TODO: Figure out past N semesters filter
+      q, 
+      status,
+      gender,
+      committee_role,
+      degree_program,
+      batch,
+      acad_year,
+      acad_sem
+    } = req.query;
 
-    let query = `
+    let baseQuery = `
       SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee_role, mpo.status
       FROM member m
       JOIN member_part_of_org mpo ON m.member_id = mpo.member_id
       WHERE mpo.org_id = ?
     `;
-    const params = [orgId];
-
-    // Add filters based on query parameters
-    if (acad_year) {
-      query += ' AND mpo.acad_year = ?';
-      params.push(acad_year);
-    }
-    if (acad_sem) {
-      query += ' AND mpo.acad_sem = ?';
-      params.push(acad_sem);
-    }
-    if (status) {
-      query += ' AND mpo.status = ?';
-      params.push(status);
-    }
-    if (batch) {
-      query += ' AND mpo.batch = ?';
-      params.push(batch);
-    }
-    if (committee_role) {
-      query += ' AND mpo.committee_role = ?';
-      params.push(committee_role);
-    }
-    if (degree_program) {
-      query += ' AND m.degree_program = ?';
-      params.push(degree_program);
-    }
-    if (gender) {
-      query += ' AND m.gender = ?';
-      params.push(gender);
+    
+    const queryParams = [orgId];
+    
+    // Add search conditions if search term exists
+    if (q) {
+      baseQuery += ` AND (
+        m.member_name LIKE ? OR 
+        m.member_username LIKE ? OR 
+        m.member_email LIKE ?
+      )`;
+      const searchTerm = `%${q}%`;
+      queryParams.push(searchTerm, searchTerm, searchTerm);
     }
     
-    // Sort current to past
-    query += ' ORDER BY mpo.acad_year DESC, mpo.acad_sem DESC';
-
-    const result = await db.query(query, params);
+    // Add filter conditions
+    const filterConditions = [];
+    
+    if (status && status !== 'All') {
+      filterConditions.push('mpo.status = ?');
+      queryParams.push(status);
+    }
+    
+    if (gender && gender !== 'All') {
+      filterConditions.push('m.gender = ?');
+      queryParams.push(gender);
+    }
+    
+    if (committee_role) {
+      filterConditions.push('mpo.committee_role LIKE ?');
+      queryParams.push(`%${committee_role}%`);
+    }
+    
+    if (degree_program) {
+      filterConditions.push('m.degree_program LIKE ?');
+      queryParams.push(`%${degree_program}%`);
+    }
+    
+    if (batch) {
+      filterConditions.push('mpo.batch LIKE ?');
+      queryParams.push(`%${batch}%`);
+    }
+    
+    if (acad_year) {
+      filterConditions.push('mpo.acad_year = ?');
+      queryParams.push(acad_year);
+    }
+    
+    if (acad_sem && acad_sem !== 'All') {
+      filterConditions.push('mpo.acad_sem = ?');
+      queryParams.push(acad_sem);
+    }
+    
+    if (filterConditions.length > 0) {
+      baseQuery += ' AND ' + filterConditions.join(' AND ');
+    }
+    
+    // Add sorting
+    baseQuery += ' ORDER BY mpo.acad_year DESC, mpo.acad_sem DESC';
+    
+    const result = await db.query(baseQuery, queryParams);
     return res.status(200).json(result);
 
   } catch (error) {
-    console.error('Get members by org error:', error);
+    console.error('Search/filter members error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
