@@ -125,7 +125,7 @@ export const signupOrg = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'Organization registered successfully',
-      orgId: result.insertId
+      orgId: result.insertId.toString
     });
 
   } catch (error) {

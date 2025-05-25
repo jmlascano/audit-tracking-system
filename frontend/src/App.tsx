@@ -7,7 +7,7 @@ function App() {
       Landing page
       <Button variant="outline"><Link to="/login">Log in</Link></Button>
       <Button variant="outline"><Link to="/org-signup">Sign up as an Organization</Link></Button>
-      <Button variant="outline"><Link to="/student-signup">Sign up as Student</Link></Button>
+      <Button variant="outline"><Link to="/member-signup">Sign up as Member</Link></Button>
     </div>
   );
 }
