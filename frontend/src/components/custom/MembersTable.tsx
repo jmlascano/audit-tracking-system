@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import axios from  "axios";
 import { useEffect, useState } from "react";
 
@@ -80,7 +81,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-       <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
+        <h1 className="text-xl font-bold font-inter pb-4">Member Management</h1>
+        <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
             <TableHeader>
                 <TableRow className="font-bold font-inter">
                     <TableHead className="text-center" >Name</TableHead>
@@ -176,7 +178,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                         </Select>
                         </div>
                     </TableHead>
-                    <TableHead className="text-center" >Edit</TableHead>
+                    <TableHead className="text-center" >Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -190,10 +192,13 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                     <TableCell>{member.batch}</TableCell>
                     <TableCell>{member.acad_year}</TableCell>
                     <TableCell>{member.acad_sem}</TableCell>
-                    <TableCell>
-                    <Button variant="outline">
-                        <Pencil />
-                    </Button>
+                    <TableCell className="flex gap-2">
+                        <Button variant="outline">
+                            <Pencil />
+                        </Button>
+                        <Button variant="outline">
+                            <Trash2 />
+                        </Button>
                     </TableCell>
                 </TableRow>
                 ))}
