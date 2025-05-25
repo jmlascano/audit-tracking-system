@@ -277,3 +277,20 @@ export const getOrgMemberStats = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Get Organization Events
+export const getOrgEvents = async (req, res) => {
+  try {
+    const { orgId } = req.params;
+
+    const eventsQuery = 'SELECT event FROM org_event WHERE org_id = ?';
+    const result = await db.query(eventsQuery, [orgId]);
+
+    const events = result.map(row => row.event);
+    return res.status(200).json(events);
+
+  } catch (error) {
+    console.error('Get org events error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};

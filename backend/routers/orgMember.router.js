@@ -7,4 +7,5 @@ export const orgMemberRouter = (app) => {
   app.put("/orgs/:orgId/members/:memberId", updateMemberOrgStatus);
   app.delete("/orgs/:orgId/members/:memberId", removeMemberFromOrg);
   app.get("/orgs/:orgId/members/stats", getOrgMemberStats);
+  app.get("/orgs/:orgId/members/events", getOrgEvents);
 }
