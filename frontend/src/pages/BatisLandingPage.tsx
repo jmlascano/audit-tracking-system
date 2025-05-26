@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, BarChart3, FolderCheck, Receipt, Users, Play, LogIn, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp, UserPlus, UserCircle } from 'lucide-react';
+import { BarChart3, FolderCheck, Receipt, Users, LogIn, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp, UserPlus, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import batisGif from '../assets/batis.gif';
 
@@ -343,19 +343,25 @@ const BatisLandingPage: React.FC = () => {
               </div>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col sm:flex-row gap-6">
-                <Link to="/member-signup">
-                  <button className="bg-yellow-400 hover:bg-yellow-500 text-purple-700 font-bold py-4 px-10 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center group text-lg">
-                    Member Sign Up
-                    <UserCircle className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
-                  </button>
-                </Link>
-                <Link to="/org-signup">
-                  <button className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 flex items-center justify-center group text-lg">
-                    Org Sign Up
-                    <UserPlus className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
-                  </button>
-                </Link>
+                  <Link to="/member-signup">
+                    <button className="bg-yellow-400 hover:bg-yellow-500 text-purple-700 font-bold py-4 px-10 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center group text-lg">
+                      Member Sign Up
+                      <UserCircle className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
+                    </button>
+                  </Link>
+                  <Link to="/org-signup">
+                    <button className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 flex items-center justify-center group text-lg">
+                      Org Sign Up
+                      <UserPlus className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
+                    </button>
+                  </Link>
                 </div>
+                <p className="text-yellow-600 text-lg mt-4 text-center sm:text-left">
+                  Already have an account?{' '}
+                  <Link to="/login" className="text-purple-600 underline hover:text-purple-800 transition-colors duration-200">
+                    Login
+                  </Link>
+                </p>
               </div>
             </div>
             <div className="relative">
@@ -428,7 +434,7 @@ const BatisLandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/*  discover Section */}
+      {/* Discover Section */}
       <section id="discover" className="py-24 bg-gradient-to-br from-yellow-50 to-yellow-100 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-yellow-100/50 to-purple-100/50"></div>
         <div className="container max-w-7xl mx-auto px-6 relative z-10">
@@ -474,7 +480,7 @@ const BatisLandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* register Section */}
+      {/* Register Section */}
       <section id="register" className="py-24 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-blue-900/90"></div>
         <div className="absolute inset-0">
@@ -520,7 +526,7 @@ const BatisLandingPage: React.FC = () => {
               </div>
             </div>
             
-            {/* register Buttons */}
+            {/* Register Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link to="/login">
                 <button 
@@ -535,20 +541,6 @@ const BatisLandingPage: React.FC = () => {
                   <span className="relative z-10">Sign In</span>
                 </button>
               </Link>
-
-              <button 
-                className="bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-purple-900 font-bold py-5 px-12 rounded-2xl transition-all duration-300 flex items-center justify-center group text-lg relative overflow-hidden"
-                onMouseEnter={() => setHoveredButton('demo')}
-                onMouseLeave={() => setHoveredButton(null)}
-              >
-                <div className={`absolute inset-0 bg-yellow-400 transition-transform duration-300 ${
-                  hoveredButton === 'demo' ? 'translate-y-0' : 'translate-y-full'
-                }`}></div>
-                <Play className="mr-3 w-6 h-6 relative z-10 group-hover:scale-110 transition-transform" />
-                <span className="relative z-10">Request Demo</span>
-                <ArrowRight className="ml-3 w-6 h-6 relative z-10 group-hover:translate-x-1 transition-transform" />
-              </button>
-            
             </div>
           </div>
         </div>
