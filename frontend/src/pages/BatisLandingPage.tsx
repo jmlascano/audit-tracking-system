@@ -550,10 +550,6 @@ const BatisLandingPage: React.FC = () => {
               </button>
             
             </div>
-            
-            <p className="text-purple-200 text-sm mt-8">
-              Free 30-day trial • No credit card required • Setup in under 5 minutes
-            </p>
           </div>
         </div>
       </section>
