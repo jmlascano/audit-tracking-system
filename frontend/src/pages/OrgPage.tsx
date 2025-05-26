@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import MembersTable from "@/components/custom/MembersTable";
+import OrgFeeTable from "@/components/custom/OrgFeeTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const OrgPage = () => {
@@ -29,12 +30,11 @@ const OrgPage = () => {
           <MembersTable org_id={org_id} />
         </TabsContent>
         <TabsContent value="fees">
-          Put the fee table and other details here
+          <OrgFeeTable org_id={org_id} />
         </TabsContent>
       </Tabs>
     </>
   );
 };
-
 
 export default OrgPage;
