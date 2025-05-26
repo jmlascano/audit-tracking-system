@@ -9,8 +9,12 @@ export const getOrgFees = async (req, res) => {
     let query = `
       SELECT f.fee_id, f.fee_name, m.member_name, f.amount, f.due_date, f.payment_date, 
              f.sem_issued, f.acad_year_issued,
-             CASE WHEN f.payment_date IS NULL THEN 0 ELSE 1 END AS isPaid,
-             CASE WHEN f.payment_date IS NOT NULL AND f.payment_date > f.due_date THEN 1 ELSE 0 END AS isLate
+             CASE WHEN f.payment_date IS NULL THEN NULL ELSE 1 END AS isPaid,
+             CASE 
+               WHEN f.payment_date IS NULL AND CURDATE() > f.due_date THEN 1
+               WHEN f.payment_date IS NOT NULL AND f.payment_date > f.due_date THEN 1
+               ELSE NULL
+             END AS isLate
       FROM fee f
       JOIN member m ON f.member_id = m.member_id
       WHERE f.org_id = ?
@@ -22,7 +26,14 @@ export const getOrgFees = async (req, res) => {
       params.push(isPaid === 'true' ? 1 : 0);
     }
     if (isLate !== undefined) {
-      query += ' AND (f.payment_date IS NOT NULL AND f.payment_date > f.due_date) = ?';
+      query += ` AND (
+        CASE 
+          WHEN f.payment_date IS NULL THEN 
+            CASE WHEN CURDATE() > f.due_date THEN 1 ELSE 0 END
+          ELSE 
+            CASE WHEN f.payment_date > f.due_date THEN 1 ELSE 0 END
+        END
+      ) = ?`;
       params.push(isLate === 'true' ? 1 : 0);
     }
 
@@ -86,6 +97,11 @@ export const updateOrgFeeDue = async (req, res) => {
       return res.status(400).json({ error: 'Due date is required' });
     }
 
+    // Validate due_date format (YYYY-MM-DD)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(due_date)) {
+      return res.status(400).json({ error: 'Invalid due date format. Use YYYY-MM-DD' });
+    }
+
     const updateQuery = `
       UPDATE fee 
       SET due_date = ?
@@ -103,7 +119,7 @@ export const updateOrgFeeDue = async (req, res) => {
       message: 'Fee due date updated successfully'
     });
   } catch (error) {
-    console.error('Update org fee due date error:', error);
+    console.error('Fee due date error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
