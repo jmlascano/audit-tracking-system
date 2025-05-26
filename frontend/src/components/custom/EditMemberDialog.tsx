@@ -63,15 +63,15 @@ const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, o
           <Pencil className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-gradient-to-br from-purple-50 to-yellow-50 border-purple-200">
         <DialogHeader>
-          <DialogTitle>Edit Status</DialogTitle>
+          <DialogTitle className="text-purple-800">Edit Status</DialogTitle>
         </DialogHeader>
         <Select
             defaultValue={old_status}
             onValueChange={(value) => setNewStatus(value)}
         >
-            <SelectTrigger>
+            <SelectTrigger className="border-purple-200">
                 <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -84,11 +84,11 @@ const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, o
         </Select>
         <DialogFooter className="gap-2">
             <DialogClose asChild>
-            <Button type="button" variant="outline" disabled={isLoading}>
+            <Button type="button" variant="outline" disabled={isLoading} className="border-purple-200 text-purple-700 hover:bg-purple-50">
                 Cancel
             </Button>
             </DialogClose>
-            <Button onClick={() => onSubmit()} disabled={isLoading}>
+            <Button onClick={() => onSubmit()} disabled={isLoading} className="bg-purple-600 hover:bg-purple-700 text-white">
             {isLoading ? "Loading..." : "Confirm"}
             </Button>
         </DialogFooter>
