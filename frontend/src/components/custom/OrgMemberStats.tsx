@@ -47,23 +47,23 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
     {
       name: 'Active Members',
       value: (stats as any).active_percentage,
-      color: '#c181e3'
+      color: '#8b5cf6'
     },
     {
       name: 'Inactive Members', 
       value: (stats as any).inactive_percentage,
-      color: '#5836ad'
+      color: '#fbbf24'
     }
   ] : [];
 
-  const COLORS = ['#c181e3', '#5836ad'];
+  const COLORS = ['#8b5cf6', '#fbbf24'];
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-2 border rounded shadow-lg">
-          <p>{payload[0].name}</p>
-          <p>{`${payload[0].value}%`}</p>
+        <div className="bg-white p-3 border border-purple-200 rounded-lg shadow-xl backdrop-blur-sm">
+          <p className='font-semibold text-purple-900'>{payload[0].name}</p>
+          <p className='text-purple-700'>{`${payload[0].value}%`}</p>
         </div>
       );
     }
@@ -71,14 +71,14 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
   };
 
   return (
-    <Card className="max-w-[350px] min-w-[250px]">
+    <Card className="max-w-[350px] min-w-[250px] bg-gradient-to-br from-purple-50 to-yellow-50 border-purple-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
       <CardHeader>
         <CardTitle>Active vs Inactive Stats</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex gap-2">
         <Input
-          className="max-w-[200px]"
+            className="max-w-[200px] border-purple-200 focus:border-purple-400 focus:ring-purple-200 transition-colors"
             type="number"
             value={n}
             onChange={(e) => setN(e.target.value)}
@@ -88,6 +88,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
           <Button
             onClick={fetchStats}
             disabled={loading}
+            className='bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white transition-all duration-300 hover:scale-105 shadow-md"'
           >
             {loading ? 'Loading...' : 'Get Stats'}
           </Button>
