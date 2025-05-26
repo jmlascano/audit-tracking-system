@@ -26,6 +26,7 @@ import OrgEvents from "./OrgEvents";
 interface Member {
   member_id: number;
   member_name: string;
+  member_username: string;
   status: string;
   committee_role: string;
   gender: string;
@@ -102,12 +103,12 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col lg:p-6">
         <div className="flex flex-col justify-between pb-4 sm:flex-row">
-            <h1 className="text-xl font-bold font-inter">Member Management</h1>
+            <h1 className="text-2xl font-bold text-gray-900 pb-2">Member Management</h1>
             <div className="flex gap-4">
               <Input 
-                className="max-w-[200px]" 
+                className="max-w-[250px] border-purple-200 focus:border-purple-400 focus:ring-purple-200 transition-colors" 
                 placeholder="Search members..."
                 value={searchTerm}
                 onChange={handleSearchChange}
@@ -118,9 +119,11 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
         {/* BODY */}
         <div className="flex gap-8 flex-col-reverse lg:flex-row">
           {/* TABLE */}
-          <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
+          <div className="min-w-[250px] rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-2">
+          <Table>
               <TableHeader>
-                  <TableRow className="font-bold font-inter">
+                  <TableRow className="font-bold bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shadow-lg">
+                      <TableHead className="text-center" >Username</TableHead>
                       <TableHead className="text-center" >Name</TableHead>
                       <TableHead >
                           <div className="flex justify-center">
@@ -145,6 +148,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead >
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[200px] min-w-[100px]"
                               placeholder="Search role..."
                               value={filters.committee_role}
                               onChange={(e) => handleFilterChange("committee_role", e.target.value)}
@@ -172,6 +176,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead >
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[250px] min-w-[200px]"
                               placeholder="Search program..."
                               value={filters.degree_program}
                               onChange={(e) => handleFilterChange("degree_program", e.target.value)}
@@ -181,6 +186,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[200px] min-w-[100px]"
                               placeholder="Search batch..."
                               value={filters.batch}
                               onChange={(e) => handleFilterChange("batch", e.target.value)}
@@ -190,7 +196,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
-                              placeholder="Search academic year..."
+                              className="max-w-[100px] min-w-[75px]"
+                              placeholder="Search AY..."
                               value={filters.acad_year}
                               onChange={(e) => handleFilterChange("acad_year", e.target.value)}
                           />
@@ -203,7 +210,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                               onValueChange={(value) => handleFilterChange("acad_sem", value)}
                           >
                               <SelectTrigger>
-                              <SelectValue placeholder="Academic Semester" />
+                              <SelectValue placeholder="Sem" />
                               </SelectTrigger>
                               <SelectContent>
                               <SelectItem value="All">All Sems</SelectItem>
@@ -219,7 +226,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
               </TableHeader>
               <TableBody>
                   {members.map((member) => (
-                  <TableRow className="text-center font-inter" key={`${member.member_id}-${member.acad_year}-${member.acad_sem}`}>
+                  <TableRow className="text-center" key={`${member.member_id}-${member.acad_year}-${member.acad_sem}`}>
+                      <TableCell>{member.member_username}</TableCell>
                       <TableCell>{member.member_name}</TableCell>
                       <TableCell>{member.status}</TableCell>
                       <TableCell>{member.committee_role}</TableCell>
@@ -236,6 +244,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                   ))}
               </TableBody>
           </Table>
+          </div>
           {/* OTHER STATS */}
           <div className="flex flex-col mb-4 gap-4 sm:flex-row lg:flex-col">
             <OrgMemberStats org_id={org_id} />

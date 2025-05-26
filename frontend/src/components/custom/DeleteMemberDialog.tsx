@@ -48,17 +48,17 @@ const DeleteMemberDialog = ({ org_id, member_id, acad_year, acad_sem, orgMemberD
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" color="red" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-md bg-gradient-to-br from-purple-50 to-yellow-50 border-purple-200">
+        <DialogHeader className="text-purple-800">
           <DialogTitle>Are you sure you want to delete this member?</DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
             <DialogClose asChild>
-            <Button type="button" variant="outline" disabled={isLoading}>
+            <Button type="button" variant="outline" disabled={isLoading} className="border-purple-200 text-purple-700 hover:bg-purple-50">
                 Cancel
             </Button>
             </DialogClose>

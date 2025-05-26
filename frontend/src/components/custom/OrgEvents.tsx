@@ -35,11 +35,11 @@ const OrgEvents = ({ org_id }: OrgEventsParams) => {
   }, [org_id]);
 
   return (
-    <Card className="max-w-[350px] min-w-[250px]">
+    <Card className="max-w-[350px] min-w-[250px] bg-gradient-to-br from-yellow-50 to-purple-50 border-yellow-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
       <CardHeader>
         <CardTitle>Events of this org:</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="text-sm text-gray-600">
         {loading ? (
           <p>Loading events...</p>
         ) : error ? (
