@@ -20,7 +20,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Toaster />
+    <Toaster 
+      toastOptions={{
+        className: '!bg-purple-800 !text-white !font-bold',
+      }}
+    />
     <RouterProvider router={router} />
   </StrictMode>,
 );
