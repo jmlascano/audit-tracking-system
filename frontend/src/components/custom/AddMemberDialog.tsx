@@ -91,14 +91,14 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white transition-all duration-300 hover:scale-105 shadow-md">
           <Plus className="h-4 w-4" />
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-gradient-to-br from-purple-50 to-yellow-50 border-purple-200">
         <DialogHeader>
-          <DialogTitle>Add Member to Organization</DialogTitle>
+          <DialogTitle className="text-purple-800">Add Member to Organization</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>
@@ -110,7 +110,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter member username" {...field} />
+                    <Input placeholder="Enter member username" className="border-purple-200 focus:border-purple-400" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -124,7 +124,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
                 <FormItem>
                   <FormLabel>Batch</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter batch" {...field} />
+                    <Input placeholder="Enter batch" className="border-purple-200 focus:border-purple-400" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,7 +139,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
                   <FormItem>
                     <FormLabel>Academic Year</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., 2425" {...field} />
+                      <Input placeholder="e.g., 2425" className="border-purple-200 focus:border-purple-400" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,7 +154,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
                     <FormLabel>Semester</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-purple-200 focus:border-purple-400">
                           <SelectValue placeholder="Select semester" />
                         </SelectTrigger>
                       </FormControl>
@@ -176,7 +176,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Committee Role</FormLabel>
-                  <Input placeholder="eg. Member" {...field} />
+                  <Input placeholder="eg. Member" className="border-purple-200 focus:border-purple-400" {...field} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -190,7 +190,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
                   <FormLabel>Status</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-purple-200 focus:border-purple-400">
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     </FormControl>
@@ -209,11 +209,11 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
 
             <DialogFooter className="gap-2">
               <DialogClose asChild>
-                <Button type="button" variant="outline" disabled={isLoading}>
+                <Button type="button" variant="outline" disabled={isLoading} className="border-purple-200 text-purple-700 hover:bg-purple-50">
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="bg-purple-600 hover:bg-purple-700 text-white">
                 {isLoading ? "Adding..." : "Add Member"}
               </Button>
             </DialogFooter>
