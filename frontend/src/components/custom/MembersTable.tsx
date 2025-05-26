@@ -148,6 +148,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead >
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[200px] min-w-[100px]"
                               placeholder="Search role..."
                               value={filters.committee_role}
                               onChange={(e) => handleFilterChange("committee_role", e.target.value)}
@@ -175,6 +176,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead >
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[250px] min-w-[200px]"
                               placeholder="Search program..."
                               value={filters.degree_program}
                               onChange={(e) => handleFilterChange("degree_program", e.target.value)}
@@ -184,6 +186,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
+                              className="max-w-[200px] min-w-[100px]"
                               placeholder="Search batch..."
                               value={filters.batch}
                               onChange={(e) => handleFilterChange("batch", e.target.value)}
@@ -193,7 +196,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
-                              placeholder="Search academic year..."
+                              className="max-w-[100px] min-w-[75px]"
+                              placeholder="Search AY..."
                               value={filters.acad_year}
                               onChange={(e) => handleFilterChange("acad_year", e.target.value)}
                           />
@@ -206,7 +210,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                               onValueChange={(value) => handleFilterChange("acad_sem", value)}
                           >
                               <SelectTrigger>
-                              <SelectValue placeholder="Academic Semester" />
+                              <SelectValue placeholder="Sem" />
                               </SelectTrigger>
                               <SelectContent>
                               <SelectItem value="All">All Sems</SelectItem>
