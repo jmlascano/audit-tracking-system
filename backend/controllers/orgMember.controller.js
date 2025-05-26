@@ -26,6 +26,7 @@ export const searchAndFilterMembers = async (req, res) => {
       committee_role,
       degree_program,
       batch,
+      sem_ay,
       acad_year,
       acad_sem
     } = req.query;
@@ -82,15 +83,23 @@ export const searchAndFilterMembers = async (req, res) => {
       queryParams.push(`%${batch}%`);
     }
     
-    if (acad_year) {
-      filterConditions.push('mpo.acad_year = ?');
-      queryParams.push(acad_year);
+    if (sem_ay) {
+      const year = sem_ay.substring(0,2) + sem_ay.substring(3,5);
+      const sem = sem_ay.substring(7,8);
+      filterConditions.push('mpo.acad_year LIKE ? AND mpo.acad_sem LIKE ?');
+      queryParams.push(year, sem);
     }
+
+    // Depreciated
+    // if (acad_year) {
+    //   filterConditions.push('mpo.acad_year = ?');
+    //   queryParams.push(acad_year);
+    // }
     
-    if (acad_sem && acad_sem !== 'All') {
-      filterConditions.push('mpo.acad_sem = ?');
-      queryParams.push(acad_sem);
-    }
+    // if (acad_sem && acad_sem !== 'All') {
+    //   filterConditions.push('mpo.acad_sem = ?');
+    //   queryParams.push(acad_sem);
+    // }
     
     if (filterConditions.length > 0) {
       baseQuery += ' AND ' + filterConditions.join(' AND ');

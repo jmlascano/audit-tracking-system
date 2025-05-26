@@ -50,8 +50,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
     committee_role: "",
     degree_program: "",
     batch: "",
-    acad_year: "",
-    acad_sem: ""
+    sem_ay: "",
   });
 
     const fetchMembers = async () => {
@@ -187,7 +186,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
-                              className="max-w-[200px] min-w-[100px]"
+                              className="max-w-[175px] min-w-[100px]"
                               placeholder="Search batch..."
                               value={filters.batch}
                               onChange={(e) => handleFilterChange("batch", e.target.value)}
@@ -197,32 +196,13 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableHead>
                           <div className="flex justify-center">
                           <Input
-                              className="max-w-[100px] min-w-[75px]"
-                              placeholder="Search AY..."
-                              value={filters.acad_year}
-                              onChange={(e) => handleFilterChange("acad_year", e.target.value)}
+                              className="max-w-[150px] min-w-[125px]"
+                              placeholder="Search AY, Sem..."
+                              value={filters.sem_ay}
+                              onChange={(e) => handleFilterChange("sem_ay", e.target.value)}
                           />
                           </div>
                       </TableHead>
-                      <TableHead>
-                          <div className="flex justify-center">
-                          <Select
-                              value={filters.acad_sem}
-                              onValueChange={(value) => handleFilterChange("acad_sem", value)}
-                          >
-                              <SelectTrigger>
-                              <SelectValue placeholder="Sem" />
-                              </SelectTrigger>
-                              <SelectContent>
-                              <SelectItem value="All">All Sems</SelectItem>
-                              <SelectItem value="1">1st Sem</SelectItem>
-                              <SelectItem value="2">2nd Sem</SelectItem>
-                              <SelectItem value="m">Midyear</SelectItem>
-                              </SelectContent>
-                          </Select>
-                          </div>
-                      </TableHead>
-                      <TableHead className="text-center" >AY, Sem</TableHead>
                       <TableHead className="text-center" >Actions</TableHead>
                   </TableRow>
               </TableHeader>
@@ -236,8 +216,6 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableCell>{member.gender}</TableCell>
                       <TableCell>{member.degree_program}</TableCell>
                       <TableCell>{member.batch}</TableCell>
-                      <TableCell>{member.acad_year}</TableCell>
-                      <TableCell>{member.acad_sem}</TableCell>
                       <TableCell>{member.sem_ay}</TableCell>
                       <TableCell className="flex gap-2">
                           <EditMemberDialog org_id={org_id} member_id={member.member_id} acad_year={member.acad_year} acad_sem={member.acad_sem} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
