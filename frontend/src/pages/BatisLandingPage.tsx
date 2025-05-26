@@ -526,6 +526,17 @@ const BatisLandingPage: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className='text-m text-purple-100 mb-12 max-w-3xl mx-auto leading-relaxed'>
+            <p>Made by Tanya Manaoat Fan Group (CMSC 127 ST1-6l)</p>
+            <div className='flex justify-center items-center text-purple-300 flex-col lg:flex-row lg:gap-12'>
+              <p>Dane Henrich Garcia</p>
+              <p>Jana Mei Lascano</p>
+              <p>Bien Gabriel Maninit</p>
+            </div>
+          </div>
+          <button onClick={() => handleNavClick('Home')} className="text-purple-400 underline hover:text-purple-800 transition-colors duration-200">
+            Back to top
+          </button>
         </div>
       </section>
     </div>
