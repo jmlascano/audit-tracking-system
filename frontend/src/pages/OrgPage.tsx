@@ -17,14 +17,20 @@ const OrgPage = () => {
 
   return (
     <>
-      <div className="flex justify-between mx-16 my-8">
-        <h1 className="text-2xl font-bold font-inter">Hi {org_name}!</h1>
-        <Button variant="destructive" onClick={handleLogout}><Link to="/">Log Out</Link></Button>
+      <div className="flex justify-between mx-16 mb-8 mt-16">
+        <h1 className="text-3xl font-bold font-inter">Hi {org_name}!</h1>
+        <Button variant="destructive" onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 shadow-lg">
+          <Link to="/">Log Out</Link>
+        </Button>
       </div>
       <Tabs defaultValue="members" className="mx-16 my-8">
-        <TabsList>
-          <TabsTrigger value="members">Members</TabsTrigger>
-          <TabsTrigger value="fees">Fees</TabsTrigger>
+        <TabsList className="bg-white border border-purple-200 shadow-lg rounded-lg">
+          <TabsTrigger value="members"className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-700 data-[state=active]:text-white transition-all duration-300 hover:bg-purple-50">
+            Members
+          </TabsTrigger>
+          <TabsTrigger value="fees" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-700 data-[state=active]:text-white transition-all duration-300 hover:bg-purple-50">
+            Fees
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="members">
           <MembersTable org_id={org_id} />
