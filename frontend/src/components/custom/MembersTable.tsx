@@ -34,6 +34,7 @@ interface Member {
   batch: string;
   acad_year: number;
   acad_sem: string;
+  sem_ay: string;
 }
 
 interface MembersTableProps {
@@ -221,6 +222,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                           </Select>
                           </div>
                       </TableHead>
+                      <TableHead className="text-center" >AY, Sem</TableHead>
                       <TableHead className="text-center" >Actions</TableHead>
                   </TableRow>
               </TableHeader>
@@ -236,6 +238,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableCell>{member.batch}</TableCell>
                       <TableCell>{member.acad_year}</TableCell>
                       <TableCell>{member.acad_sem}</TableCell>
+                      <TableCell>{member.sem_ay}</TableCell>
                       <TableCell className="flex gap-2">
                           <EditMemberDialog org_id={org_id} member_id={member.member_id} acad_year={member.acad_year} acad_sem={member.acad_sem} old_status={member.status} orgMemberEdited={() => fetchMembers()}/>
                           <DeleteMemberDialog org_id={org_id} member_id={member.member_id} acad_year={member.acad_year} acad_sem={member.acad_sem} orgMemberDeleted={() => fetchMembers()}/>

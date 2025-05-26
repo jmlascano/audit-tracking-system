@@ -31,7 +31,12 @@ export const searchAndFilterMembers = async (req, res) => {
     } = req.query;
 
     let baseQuery = `
-      SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee_role, mpo.status
+      SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee_role, mpo.status,
+        CASE 
+          WHEN mpo.acad_sem = '1' THEN CONCAT(SUBSTRING(mpo.acad_year,1,2), '-', SUBSTRING(mpo.acad_year,3), ', ', mpo.acad_sem, 'st Sem') 
+          WHEN mpo.acad_sem = '2' THEN CONCAT(SUBSTRING(mpo.acad_year,1,2), '-', SUBSTRING(mpo.acad_year,3), ', ', mpo.acad_sem, 'nd Sem') 
+          ELSE CONCAT(SUBSTRING(mpo.acad_year,1,2), '-', SUBSTRING(mpo.acad_year,3), ', ', 'Midyear') 
+        END sem_ay
       FROM member m
       JOIN member_part_of_org mpo ON m.member_id = mpo.member_id
       WHERE mpo.org_id = ?
