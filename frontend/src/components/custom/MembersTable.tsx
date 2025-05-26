@@ -26,6 +26,7 @@ import OrgEvents from "./OrgEvents";
 interface Member {
   member_id: number;
   member_name: string;
+  member_username: string;
   status: string;
   committee_role: string;
   gender: string;
@@ -122,6 +123,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
           <Table>
               <TableHeader>
                   <TableRow className="font-bold bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shadow-lg">
+                      <TableHead className="text-center" >Username</TableHead>
                       <TableHead className="text-center" >Name</TableHead>
                       <TableHead >
                           <div className="flex justify-center">
@@ -221,6 +223,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
               <TableBody>
                   {members.map((member) => (
                   <TableRow className="text-center" key={`${member.member_id}-${member.acad_year}-${member.acad_sem}`}>
+                      <TableCell>{member.member_username}</TableCell>
                       <TableCell>{member.member_name}</TableCell>
                       <TableCell>{member.status}</TableCell>
                       <TableCell>{member.committee_role}</TableCell>
