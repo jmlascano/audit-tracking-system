@@ -60,7 +60,7 @@ const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, o
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <Pencil className="h-4 w-4" />
+          <Pencil className="h-4 w-4" color="purple"/>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-gradient-to-br from-purple-50 to-yellow-50 border-purple-200">
