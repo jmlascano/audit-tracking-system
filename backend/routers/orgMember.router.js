@@ -1,7 +1,11 @@
-import { getAllOrgs, getMembersByOrg, addMemberToOrg } from "../controllers/orgMember.controller.js";
+import { getAllOrgs, searchAndFilterMembers, addMemberToOrg, updateMemberOrgStatus, removeMemberFromOrg, getOrgMemberStats, getOrgEvents } from "../controllers/orgMember.controller.js";
 
 export const orgMemberRouter = (app) => {
   app.get("/orgs", getAllOrgs);
-  app.get("/orgs/:orgId/members", getMembersByOrg);
+  app.get("/orgs/:orgId/members", searchAndFilterMembers);
   app.post("/orgs/:orgId/members", addMemberToOrg);
+  app.put("/orgs/:orgId/members/:memberId/:acadYear/:acadSem", updateMemberOrgStatus);
+  app.delete("/orgs/:orgId/members/:memberId/:acadYear/:acadSem", removeMemberFromOrg);
+  app.get("/orgs/:orgId/members/stats", getOrgMemberStats);
+  app.get("/orgs/:orgId/events", getOrgEvents);
 }
