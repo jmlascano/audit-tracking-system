@@ -35,7 +35,7 @@ const OrgEvents = ({ org_id }: OrgEventsParams) => {
   }, [org_id]);
 
   return (
-    <Card className="max-w-[350px]">
+    <Card className="max-w-[350px] min-w-[250px]">
       <CardHeader>
         <CardTitle>Events of this org:</CardTitle>
       </CardHeader>

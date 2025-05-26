@@ -103,20 +103,20 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <div className="flex justify-between pb-4">
+        <div className="flex flex-col justify-between pb-4 sm:flex-row">
             <h1 className="text-xl font-bold font-inter">Member Management</h1>
             <div className="flex gap-4">
-                <Input 
-                  className="max-w-[200px]" 
-                  placeholder="Search members..."
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-                <AddMemberDialog org_id={org_id} onMemberAdded={() => fetchMembers()}/>
-            </div>
+              <Input 
+                className="max-w-[200px]" 
+                placeholder="Search members..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+              <AddMemberDialog org_id={org_id} onMemberAdded={() => fetchMembers()}/>
+          </div>
         </div>
         {/* BODY */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 flex-col-reverse lg:flex-row">
           {/* TABLE */}
           <Table className="rounded-lg border outline-2 outline-white overflow-hidden">
               <TableHeader>
@@ -237,7 +237,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
               </TableBody>
           </Table>
           {/* OTHER STATS */}
-          <div className="flex flex-col mb-4 gap-4">
+          <div className="flex flex-col mb-4 gap-4 sm:flex-row lg:flex-col">
             <OrgMemberStats org_id={org_id} />
             <OrgEvents org_id={org_id} />
           </div>

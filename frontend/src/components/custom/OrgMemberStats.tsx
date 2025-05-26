@@ -71,7 +71,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
   };
 
   return (
-    <Card className="max-w-[350px]">
+    <Card className="max-w-[350px] min-w-[250px]">
       <CardHeader>
         <CardTitle>Active vs Inactive Stats</CardTitle>
       </CardHeader>
