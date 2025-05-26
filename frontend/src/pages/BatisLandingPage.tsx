@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, BarChart3, FolderCheck, Receipt, Users, Play, LogIn, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp } from 'lucide-react';
+import { ArrowRight, BarChart3, FolderCheck, Receipt, Users, Play, LogIn, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp, UserPlus, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import batisGif from '../assets/batis.gif';
 
@@ -343,22 +343,19 @@ const BatisLandingPage: React.FC = () => {
               </div>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col sm:flex-row gap-6">
-                  <Link to="/member-signup">
-                    <button className="bg-yellow-400 hover:bg-yellow-500 text-purple-700 font-bold py-4 px-10 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center group text-lg">
-                      Get Started
-                      <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </Link>
-                    <button className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 flex items-center justify-center text-lg">
-                      <Play className="mr-3 w-6 h-6" />
-                      Learn More
-                    </button>
-                </div>
-                <Link to="/org-signup">
-                  <span className="text-purple-600 underline hover:text-purple-800 transition-colors duration-200 text-lg mt-4 block text-center sm:text-left">
-                    Sign up as an organization
-                  </span>
+                <Link to="/member-signup">
+                  <button className="bg-yellow-400 hover:bg-yellow-500 text-purple-700 font-bold py-4 px-10 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center group text-lg">
+                    Member Sign Up
+                    <UserCircle className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
+                  </button>
                 </Link>
+                <Link to="/org-signup">
+                  <button className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 flex items-center justify-center group text-lg">
+                    Org Sign Up
+                    <UserPlus className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
+                  </button>
+                </Link>
+                </div>
               </div>
             </div>
             <div className="relative">
