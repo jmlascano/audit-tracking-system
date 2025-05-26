@@ -349,12 +349,10 @@ const BatisLandingPage: React.FC = () => {
                       <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </Link>
-                  <Link to="/demo">
                     <button className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 flex items-center justify-center text-lg">
                       <Play className="mr-3 w-6 h-6" />
                       Learn More
                     </button>
-                  </Link>
                 </div>
                 <Link to="/org-signup">
                   <span className="text-purple-600 underline hover:text-purple-800 transition-colors duration-200 text-lg mt-4 block text-center sm:text-left">
