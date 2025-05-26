@@ -481,7 +481,7 @@ const BatisLandingPage: React.FC = () => {
       </section>
 
       {/* Register Section */}
-      <section id="register" className="py-24 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 relative overflow-hidden">
+      <section id="register" className="py-33 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-blue-900/90"></div>
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-32 h-32 bg-yellow-400/10 rounded-full animate-pulse"></div>
@@ -524,23 +524,6 @@ const BatisLandingPage: React.FC = () => {
                 </div>
                 <p className="text-purple-100">Organizations Trust Us</p>
               </div>
-            </div>
-            
-            {/* Register Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link to="/login">
-                <button 
-                  className="bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-bold py-5 px-12 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center group text-lg relative overflow-hidden"
-                  onMouseEnter={() => setHoveredButton('login')}
-                  onMouseLeave={() => setHoveredButton(null)}
-                >
-                  <div className={`absolute inset-0 bg-yellow-300 transition-transform duration-300 ${
-                    hoveredButton === 'login' ? 'translate-x-0' : 'translate-x-full'
-                  }`}></div>
-                  <LogIn className="mr-3 w-6 h-6 relative z-10" />
-                  <span className="relative z-10">Sign In</span>
-                </button>
-              </Link>
             </div>
           </div>
         </div>
