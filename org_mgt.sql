@@ -94,7 +94,8 @@ INSERT INTO member (member_username, member_name, member_password, gender, membe
 
 INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee, role, status) VALUES
 (1, 1, 'hash', 2425, '1', 'Executive', 'President', 'Active'),
-(2, 1, 'hash', 2425, '1', 'Executive', 'VP Internal', 'Active'),
+(1, 2, 'canvas', 2425, '1', 'Executive', 'President', 'Active'),
+(2, 1, 'hash', 2425, 'm', 'Executive', 'VP Internal', 'Active'),
 (3, 1, 'float(inf)', 2324, '2', 'Executive', 'Secretary', 'Inactive'),
 (4, 2, 'yb15', 2324, '2', 'Creative', 'Artist', 'Active'),
 (5, 2, 'yb15', 2425, '1', 'Logistics', 'Logistics', 'Active'),
@@ -105,14 +106,16 @@ INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, c
 (10, 3, 'earthforce', 2425, '1', 'Advocacy', 'Advocate', 'Active'),
 (11, 2, 'canvas', 2324, '2', 'Creative', 'Exhibit Head', 'Inactive'),
 (12, 3, 'earthforce', 2425, 'm', 'General', 'Member', 'Active'),
-(13, 1, 'hash', 2324, '1', 'General', 'Member', 'Active'),
+(13, 1, 'hash', 2324, 'm', 'General', 'Member', 'Active'),
 (14, 1, 'hash', 2324, '1', 'Tech', 'Developer', 'Suspended'),
 (15, 2, 'canvas', 2324, '2', 'Creative', 'Artist', 'Active'),
 (16, 3, 'sprout', 2223, '1', 'General', 'Member', 'Alumni'),
 (17, 1, 'hash', 2425, '1', 'Design', 'Design', 'Active'),
-(18, 2, 'canvas', 2425, '2', 'Logistics', 'Logistics', 'Active'),
+(18, 2, 'canvas', 2425, 'm', 'Logistics', 'Logistics', 'Active'),
 (19, 3, 'earthforce', 2425, '2', 'Volunteers', 'Volunteer', 'Active'),
-(20, 1, 'hash', 2425, '2', 'Tech', 'Developer', 'Active');
+(20, 1, 'hash', 2425, 'm', 'Executive', 'President', 'Active'),
+(12, 2, 'hash', 2425, '2', 'Tech', 'Developer', 'Active'),
+(14, 1, 'hash', 2425, '2', 'Creative', 'Member', 'Inactive');
 
 INSERT INTO fee (fee_name, amount, due_date, sem_issued, acad_year_issued, payment_date, member_id, org_id) VALUES
 ('Membership Fee', 100.00, '2024-09-30', '1', 2425, '2024-09-15', 1, 1),
