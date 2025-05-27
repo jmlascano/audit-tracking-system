@@ -307,3 +307,33 @@ export const getOrgEvents = async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+// Edit Organization Details
+export const editOrg = async (req, res) => {
+  try {
+    const { orgId } = req.params;
+    const { org_name } = req.body;
+    
+    if (!org_name) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+
+    const updateQuery = `
+      UPDATE org
+      SET org_name = ?
+      WHERE org_id = ?
+    `;
+
+    await db.query(updateQuery, [org_name, orgId]);
+
+    return res.status(201).json({
+      success: true,
+      message: 'Edit of organization success'
+    });
+
+  } catch (error) {
+    console.error('Edit org error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};

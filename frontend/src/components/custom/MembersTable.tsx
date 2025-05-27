@@ -104,7 +104,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
 
   return (
     <div className="min-h-screen flex flex-col lg:p-6">
-        <div className="flex flex-col justify-between pb-4 sm:flex-row">
+        <div className="flex flex-col justify-between pb-4 sm:flex-row max-w-[1700px]">
             <h1 className="text-2xl font-bold text-gray-900 pb-2">Member Management</h1>
             <div className="flex gap-4">
               <Input 
@@ -117,7 +117,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
           </div>
         </div>
         {/* BODY */}
-        <div className="flex gap-8 flex-col-reverse lg:flex-row">
+        <div className="flex gap-8 flex-col-reverse lg:flex-row max-w-[1700px] items-start">
           {/* TABLE */}
           <div className="min-w-[250px] rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-2">
           <Table>
