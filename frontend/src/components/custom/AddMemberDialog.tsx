@@ -37,7 +37,8 @@ const formSchema = z.object({
   batch: z.string().min(1, "Batch is required"),
   acad_year: z.string().min(1, "Academic year is required"),
   acad_sem: z.string().min(1, "Academic semester is required"),
-  committee_role: z.string().min(1, "Committee role is required"),
+  committee: z.string().min(1, "Committee is required"),
+  role: z.string().min(1, "Role is required"),
   status: z.string().min(1, "Status is required"),
 });
 
@@ -57,7 +58,8 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
       batch: "",
       acad_year: "",
       acad_sem: "",
-      committee_role: "",
+      committee: "",
+      role: "",
       status: "",
     },
   });
@@ -170,12 +172,37 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
               />
             </div>
 
-            <FormField
+            {/* DEPRECIATED */}
+            {/* <FormField
               control={form.control}
               name="committee_role"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Committee Role</FormLabel>
+                  <Input placeholder="eg. Member" className="border-purple-200 focus:border-purple-400" {...field} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+
+            <FormField
+              control={form.control}
+              name="committee"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Committee</FormLabel>
+                  <Input placeholder="eg. Tech" className="border-purple-200 focus:border-purple-400" {...field} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
                   <Input placeholder="eg. Member" className="border-purple-200 focus:border-purple-400" {...field} />
                   <FormMessage />
                 </FormItem>
