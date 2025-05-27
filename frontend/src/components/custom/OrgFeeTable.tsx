@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -35,6 +35,7 @@ interface Fee {
   isLate: number;
   sem_issued: string;
   acad_year_issued: number;
+  sem_ay: string;
 }
 
 interface FeeStats {
@@ -54,12 +55,21 @@ interface OrgFeeTableProps {
   org_id: number;
 }
 
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const [fees, setFees] = useState<Fee[]>([]);
   const [stats, setStats] = useState<FeeStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
   const [filters, setFilters] = useState({
+    sem_ay: "",
     isPaid: "",
     isLate: "",
     search: "",
@@ -67,6 +77,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [feeToDelete, setFeeToDelete] = useState<number | null>(null);
+  const [semAyInput, setSemAyInput] = useState("");
 
   const fetchFees = async () => {
     try {
@@ -139,6 +150,14 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
       return newFilters;
     });
   }, []);
+
+  // Debounced version of the filter change handler
+  const debouncedFilterChange = useMemo(
+    () => debounce((value: string) => {
+      handleFilterChange("sem_ay", value);
+    }, 500), // 500ms delay
+    [handleFilterChange]
+  );
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -371,6 +390,19 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                   <TableHead className="text-center font-semibold text-gray-800">Payment Date</TableHead>
                   <TableHead className="text-center font-semibold text-gray-800">
                     <div className="flex justify-center">
+                      <Input
+                          className="max-w-[150px] min-w-[125px]"
+                          placeholder="Search AY, Sem..."
+                          value={semAyInput}
+                          onChange={(e) => {
+                            setSemAyInput(e.target.value);
+                            debouncedFilterChange(e.target.value);
+                          }}
+                      />
+                      </div>
+                  </TableHead>
+                  <TableHead className="text-center font-semibold text-gray-800">
+                    <div className="flex justify-center">
                       <Select
                         value={filters.isPaid}
                         onValueChange={(value) => handleFilterChange("isPaid", value)}
@@ -415,6 +447,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                     <TableCell className="font-medium text-gray-900">₱{fee.amount.toLocaleString()}</TableCell>
                     <TableCell className="text-gray-700">{formatDate(fee.due_date)}</TableCell>
                     <TableCell className="text-gray-700">{formatDateTime(fee.payment_date)}</TableCell>
+                    <TableCell className="text-gray-700">{fee.sem_ay}</TableCell>
                     <TableCell>
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         fee.isPaid 
