@@ -109,3 +109,32 @@ export const payFee = async (req, res) => {
   }
 };
 
+// Edit Member Details
+export const editMember = async (req, res) => {
+  try {
+    const { memberId } = req.params;
+    const { member_name, gender, degree_program } = req.body;
+    
+    if (!member_name || !gender || !degree_program) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const updateQuery = `
+      UPDATE member
+      SET member_name = ?, gender = ?, degree_program = ?
+      WHERE member_id = ?
+    `;
+
+    await db.query(updateQuery, [member_name, gender, degree_program, memberId]);
+
+    return res.status(201).json({
+      success: true,
+      message: 'Edit of member success'
+    });
+
+  } catch (error) {
+    console.error('Edit member error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
