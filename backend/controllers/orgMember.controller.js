@@ -23,7 +23,8 @@ export const searchAndFilterMembers = async (req, res) => {
       q, 
       status,
       gender,
-      committee_role,
+      committee,
+      role,
       degree_program,
       batch,
       sem_ay,
@@ -32,7 +33,7 @@ export const searchAndFilterMembers = async (req, res) => {
     } = req.query;
 
     let baseQuery = `
-      SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee_role, mpo.status,
+      SELECT m.*, mpo.batch, mpo.acad_year, mpo.acad_sem, mpo.committee, mpo.status, mpo.role,
         CASE 
           WHEN mpo.acad_sem = '1' THEN CONCAT(SUBSTRING(mpo.acad_year,1,2), '-', SUBSTRING(mpo.acad_year,3), ', ', mpo.acad_sem, 'st Sem') 
           WHEN mpo.acad_sem = '2' THEN CONCAT(SUBSTRING(mpo.acad_year,1,2), '-', SUBSTRING(mpo.acad_year,3), ', ', mpo.acad_sem, 'nd Sem') 
@@ -68,9 +69,20 @@ export const searchAndFilterMembers = async (req, res) => {
       queryParams.push(gender);
     }
     
-    if (committee_role) {
-      filterConditions.push('mpo.committee_role LIKE ?');
-      queryParams.push(`%${committee_role}%`);
+    // DEPRECIATED
+    // if (committee_role) {
+    //   filterConditions.push('mpo.committee_role LIKE ?');
+    //   queryParams.push(`%${committee_role}%`);
+    // }
+
+    if (committee) {
+      filterConditions.push('mpo.committee LIKE ?');
+      queryParams.push(`%${committee}%`);
+    }
+
+    if (role) {
+      filterConditions.push('mpo.role LIKE ?');
+      queryParams.push(`%${role}%`);
     }
     
     if (degree_program) {

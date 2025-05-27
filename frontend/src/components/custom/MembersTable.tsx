@@ -28,7 +28,8 @@ interface Member {
   member_name: string;
   member_username: string;
   status: string;
-  committee_role: string;
+  committee: string;
+  role: string;
   gender: string;
   degree_program: string;
   batch: string;
@@ -47,7 +48,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
     const [filters, setFilters] = useState({
     status: "",
     gender: "",
-    committee_role: "",
+    committee: "",
+    role: "",
     degree_program: "",
     batch: "",
     sem_ay: "",
@@ -149,9 +151,19 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                           <div className="flex justify-center">
                           <Input
                               className="max-w-[200px] min-w-[100px]"
+                              placeholder="Search committee..."
+                              value={filters.committee}
+                              onChange={(e) => handleFilterChange("committee", e.target.value)}
+                          />
+                          </div>
+                      </TableHead>
+                      <TableHead >
+                          <div className="flex justify-center">
+                          <Input
+                              className="max-w-[200px] min-w-[100px]"
                               placeholder="Search role..."
-                              value={filters.committee_role}
-                              onChange={(e) => handleFilterChange("committee_role", e.target.value)}
+                              value={filters.role}
+                              onChange={(e) => handleFilterChange("role", e.target.value)}
                           />
                           </div>
                       </TableHead>
@@ -212,7 +224,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
                       <TableCell>{member.member_username}</TableCell>
                       <TableCell>{member.member_name}</TableCell>
                       <TableCell>{member.status}</TableCell>
-                      <TableCell>{member.committee_role}</TableCell>
+                      <TableCell>{member.committee}</TableCell>
+                      <TableCell>{member.role}</TableCell>
                       <TableCell>{member.gender}</TableCell>
                       <TableCell>{member.degree_program}</TableCell>
                       <TableCell>{member.batch}</TableCell>
