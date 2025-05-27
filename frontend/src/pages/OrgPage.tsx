@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MembersTable from "@/components/custom/MembersTable";
 import OrgFeeTable from "@/components/custom/OrgFeeTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import OrgHeader from "@/components/custom/OrgHeader";
 
 const OrgPage = () => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -17,6 +18,7 @@ const OrgPage = () => {
 
   return (
     <>
+      <OrgHeader user={org_name} />
       <div className="flex justify-between mx-16 mb-8 mt-16">
         <h1 className="text-3xl font-bold font-inter">Hi, {org_name}!</h1>
         <Button variant="destructive" onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 shadow-lg">
