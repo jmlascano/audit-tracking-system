@@ -35,9 +35,7 @@ export const getMemberFees = async (req, res) => {
               ELSE CONCAT(SUBSTRING(f.acad_year_issued,1,2), '-', SUBSTRING(f.acad_year_issued,3), ', ', 'Midyear') 
             END sem_ay
       FROM fee f
-      JOIN member m ON f.member_id = m.member_id 
-      JOIN member_part_of_org mpo ON mpo.member_id = m.member_id
-      JOIN org o ON mpo.org_id = o.org_id
+      JOIN org o ON f.org_id = o.org_id
       WHERE f.member_id = ?
     `;
     const params = [memberId];
