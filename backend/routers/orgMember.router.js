@@ -1,4 +1,4 @@
-import { getAllOrgs, searchAndFilterMembers, addMemberToOrg, updateMemberOrgStatus, removeMemberFromOrg, getOrgMemberStats, getOrgEvent, editOrg } from "../controllers/orgMember.controller.js";
+import { getAllOrgs, searchAndFilterMembers, addMemberToOrg, updateMemberOrgStatus, removeMemberFromOrg, getOrgMemberStats, getOrgEvents, editOrg } from "../controllers/orgMember.controller.js";
 
 export const orgMemberRouter = (app) => {
   app.get("/orgs", getAllOrgs);

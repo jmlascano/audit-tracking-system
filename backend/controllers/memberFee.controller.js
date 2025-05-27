@@ -19,19 +19,19 @@ export const getAllMembers = async (req, res) => {
 export const editMember = async (req, res) => {
   try {
     const { memberId } = req.params;
-    const { member_username, member_name, gender, degree_program } = req.body;
+    const { member_name, gender, degree_program } = req.body;
     
-    if (!member_name || !member_username || !gender || !degree_program) {
+    if (!member_name || !gender || !degree_program) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const updateQuery = `
       UPDATE member
-      SET member_name = ?, member_username = ?, gender = ?, degree_program = ?
-      WHERE memmber_id = ?
+      SET member_name = ?, gender = ?, degree_program = ?
+      WHERE member_id = ?
     `;
 
-    await db.query(updateQuery, [member_name, member_username, gender, degree_program, memberId]);
+    await db.query(updateQuery, [member_name, gender, degree_program, memberId]);
 
     return res.status(201).json({
       success: true,
