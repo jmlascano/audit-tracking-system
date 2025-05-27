@@ -113,7 +113,7 @@ INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, c
 (17, 1, 'hash', 2425, '1', 'Design', 'Design', 'Active'),
 (18, 2, 'canvas', 2425, 'm', 'Logistics', 'Logistics', 'Active'),
 (19, 3, 'earthforce', 2425, '2', 'Volunteers', 'Volunteer', 'Active'),
-(20, 1, 'hash', 2425, 'm', 'Executive', 'President', 'Active'),
+(20, 1, 'hash', 2324, 'm', 'Executive', 'President', 'Active'),
 (12, 2, 'hash', 2425, '2', 'Tech', 'Developer', 'Active'),
 (14, 1, 'hash', 2425, '2', 'Creative', 'Member', 'Inactive');
 
