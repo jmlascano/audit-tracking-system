@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -20,6 +20,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 import axios from "axios";
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Input } from "../ui/input";
 
 interface Fee {
   fee_id: number;
@@ -32,6 +33,7 @@ interface Fee {
   isLate: number;
   sem_issued: string;
   acad_year_issued: number;
+  sem_ay: string;
 }
 
 interface FeeStats {
@@ -47,6 +49,14 @@ interface MembersFeeTableProps {
   member_id: number;
 }
 
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   const [fees, setFees] = useState<Fee[]>([]);
   const [stats, setStats] = useState<FeeStats | null>(null);
@@ -58,6 +68,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     search: "",
   });
   const [feeToDelete, setToPaid] = useState<number | null>(null);
+  const [semAyInput, setSemAyInput] = useState("");
 
   const fetchFees = async () => {
     try {
@@ -101,10 +112,21 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     setIsFiltering(true);
     setFilters((prev) => {
       const newFilters = { ...prev, [field]: value };
-      fetchFees().finally(() => setIsFiltering(false));
       return newFilters;
     });
+    
+    setTimeout(() => {
+      setIsFiltering(false);
+    }, 300);
   }, []);
+
+  // Debounced version of the filter change handler
+  const debouncedFilterChange = useMemo(
+    () => debounce((value: string) => {
+      handleFilterChange("sem_ay", value);
+    }, 500), // 500ms delay
+    [handleFilterChange]
+  );
 
   const formatDate = (date: string) => {
     try {
@@ -243,6 +265,19 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
                     <TableHead className="text-center font-semibold text-gray-800">Fee Name</TableHead>
                     <TableHead className="text-center font-semibold text-gray-800">Organization Name</TableHead>
                     <TableHead className="text-center font-semibold text-gray-800">Amount</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">
+                      <div className="flex justify-center">
+                        <Input
+                          className="max-w-[150px] min-w-[125px]"
+                          placeholder="Search AY, Sem..."
+                          value={semAyInput}
+                          onChange={(e) => {
+                            setSemAyInput(e.target.value);
+                            debouncedFilterChange(e.target.value);
+                          }}
+                        />
+                      </div>
+                    </TableHead>
                     <TableHead className="text-center font-semibold text-gray-800">Due Date</TableHead>
                     <TableHead className="text-center font-semibold text-gray-800">Payment Date</TableHead>
                     <TableHead>
@@ -289,6 +324,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
                       <TableCell className="text-gray-700">{fee.fee_name}</TableCell>
                       <TableCell className="text-gray-700">{fee.org_name}</TableCell>
                       <TableCell className="font-medium text-gray-900">₱{fee.amount.toLocaleString()}</TableCell>
+                      <TableCell className="font-medium text-gray-900">{fee.sem_ay}</TableCell>
                       <TableCell className="text-gray-700">{formatDate(fee.due_date)}</TableCell>
                       <TableCell className="text-gray-700">{formatDateTime(fee.payment_date)}</TableCell>
                       <TableCell>
