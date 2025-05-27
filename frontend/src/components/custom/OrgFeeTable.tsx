@@ -35,6 +35,7 @@ interface Fee {
   isLate: number;
   sem_issued: string;
   acad_year_issued: number;
+  sem_ay: string;
 }
 
 interface FeeStats {
@@ -60,6 +61,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const [loading, setLoading] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
   const [filters, setFilters] = useState({
+    sem_ay: "",
     isPaid: "",
     isLate: "",
     search: "",
@@ -371,6 +373,16 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                   <TableHead className="text-center font-semibold text-gray-800">Payment Date</TableHead>
                   <TableHead className="text-center font-semibold text-gray-800">
                     <div className="flex justify-center">
+                      <Input
+                          className="max-w-[150px] min-w-[125px]"
+                          placeholder="Search AY, Sem..."
+                          value={filters.sem_ay}
+                          onChange={(e) => handleFilterChange("sem_ay", e.target.value)}
+                      />
+                      </div>
+                  </TableHead>
+                  <TableHead className="text-center font-semibold text-gray-800">
+                    <div className="flex justify-center">
                       <Select
                         value={filters.isPaid}
                         onValueChange={(value) => handleFilterChange("isPaid", value)}
@@ -415,6 +427,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                     <TableCell className="font-medium text-gray-900">₱{fee.amount.toLocaleString()}</TableCell>
                     <TableCell className="text-gray-700">{formatDate(fee.due_date)}</TableCell>
                     <TableCell className="text-gray-700">{formatDateTime(fee.payment_date)}</TableCell>
+                    <TableCell className="text-gray-700">{fee.sem_ay}</TableCell>
                     <TableCell>
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         fee.isPaid 
