@@ -154,10 +154,9 @@ const BatisLandingPage: React.FC = () => {
 
   const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description, delay = 0 }) => (
     <div 
-      className={`bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
-        isVisible.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
+       className={`bg-white rounded-xl p-8 shadow-lg transition-[transform,shadow] duration-300 ease-in-out ${
+          isVisible.features ? 'opacity-100' : 'opacity-0 translate-y-12'
+        } hover:shadow-xl hover:scale-[1.02]`}
     >
       <div className="w-20 h-20 bg-gradient-to-br from-purple-200 to-purple-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
         <Icon className="w-10 h-10 text-yellow-400" />
@@ -169,15 +168,14 @@ const BatisLandingPage: React.FC = () => {
 
   const Screenshot: React.FC<ScreenshotProps> = ({ title, delay = 0 }) => (
     <div 
-      className={`bg-white rounded-xl border-4 border-purple-500 overflow-hidden shadow-xl transform transition-all duration-700 hover:scale-105 ${
-        isVisible.action ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`bg-white rounded-xl border-4 border-purple-500 transition-[transform,shadow] duration-300 ease-in-out shadow-xl ${
+        isVisible.action ? 'opacity-100' : 'opacity-0 translate-y-12'
+      } hover:scale-[1.03]`}
     >
       <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-4">
         <h4 className="text-white font-semibold text-lg">{title}</h4>
       </div>
-      <div className="p-8 h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+      <div className="p-8 h-64 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="w-20 h-20 bg-yellow-400 rounded-full mx-auto mb-6 flex items-center justify-center">
             <BarChart3 className="w-10 h-10 text-purple-600" />
@@ -276,7 +274,7 @@ const BatisLandingPage: React.FC = () => {
 
               {/* Navigation Links */}
               <div className="hidden lg:flex items-center space-x-8">
-                {['Home', 'Features', 'Action', 'Discover', 'Register'].map((item) => (
+                {['Home', 'Features', 'Action',  'Discover', 'Register'].map((item) => (
                   <button
                     key={item}
                     onClick={() => handleNavClick(item)}

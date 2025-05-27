@@ -1,6 +1,7 @@
-import { getMemberFees, getMemberFeeStats, payFee, editMember } from "../controllers/memberFee.controller.js";
+import { getAllMembers, getMemberFees, getMemberFeeStats, payFee, editMember } from "../controllers/memberFee.controller.js";
 
 export const memberFeeRouter = (app) => {
+  app.get("/members/", getAllMembers );
   app.get("/members/:memberId/fees", getMemberFees);
   app.get("/members/:memberId/fees/stats", getMemberFeeStats);
   app.get("/members/:memberId/fees/:feeId/pay", payFee);

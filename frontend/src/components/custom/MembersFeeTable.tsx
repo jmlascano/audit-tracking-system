@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -14,16 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import ConfirmDialog from "@/components/ui/ConfirmDialog"; // Import ConfirmDialog
-import { EllipsisVertical, BanknoteArrowUp } from 'lucide-react';
-import Header from './Header';
+import { CreditCard, ArrowUp } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import axios from "axios";
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import AddFeeDialog from "./AddFeeDialog"; 
+import { Input } from "../ui/input";
 
 interface Fee {
   fee_id: number;
@@ -36,6 +33,7 @@ interface Fee {
   isLate: number;
   sem_issued: string;
   acad_year_issued: number;
+  sem_ay: string;
 }
 
 interface FeeStats {
@@ -51,6 +49,14 @@ interface MembersFeeTableProps {
   member_id: number;
 }
 
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   const [fees, setFees] = useState<Fee[]>([]);
   const [stats, setStats] = useState<FeeStats | null>(null);
@@ -62,6 +68,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     search: "",
   });
   const [feeToDelete, setToPaid] = useState<number | null>(null);
+  const [semAyInput, setSemAyInput] = useState("");
 
   const fetchFees = async () => {
     try {
@@ -92,7 +99,6 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     }
   };
 
-
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -106,10 +112,21 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     setIsFiltering(true);
     setFilters((prev) => {
       const newFilters = { ...prev, [field]: value };
-      fetchFees().finally(() => setIsFiltering(false));
       return newFilters;
     });
+    
+    setTimeout(() => {
+      setIsFiltering(false);
+    }, 300);
   }, []);
+
+  // Debounced version of the filter change handler
+  const debouncedFilterChange = useMemo(
+    () => debounce((value: string) => {
+      handleFilterChange("sem_ay", value);
+    }, 500), // 500ms delay
+    [handleFilterChange]
+  );
 
   const formatDate = (date: string) => {
     try {
@@ -129,14 +146,14 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   };
 
   const markFeeAsPaid = async (fee_id: number) => {
-  try {
-    await axios.get(`http://localhost:8080/members/${member_id}/fees/${fee_id}/pay`,);
-    console.log(`Fee ${fee_id} marked as paid`);
-    await fetchFees(); // Refresh data
-  } catch (error) {
-    console.error("Failed to mark fee as paid:", error);
-  }
-};
+    try {
+      await axios.get(`http://localhost:8080/members/${member_id}/fees/${fee_id}/pay`);
+      console.log(`Fee ${fee_id} marked as paid`);
+      await fetchFees(); // Refresh data
+    } catch (error) {
+      console.error("Failed to mark fee as paid:", error);
+    }
+  };
 
   const filteredFees = fees.filter((fee) => {
     if (filters.search) {
@@ -165,6 +182,9 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   const filteredStats = {
     totalAmount: filteredFees
       .filter(fee => fee.isPaid)
+      .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
+    totalUnpaidAmount: filteredFees
+      .filter(fee => !fee.isPaid)
       .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
     paidCount: filteredFees.filter(fee => fee.isPaid).length,
     unpaidCount: filteredFees.filter(fee => !fee.isPaid).length,
@@ -204,10 +224,9 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
 
   if (loading) {
     return (
-     
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading fee data...</p>
         </div>
       </div>
@@ -215,39 +234,176 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   }
 
   return (
-
-    <div className="flex flex-col p-6 bg-gray-50">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Fee Management</h1>
+    <div className="min-h-screen flex flex-col mx-16">
+      {/* HEADER */}
+      <div className="flex flex-col justify-between pb-4 sm:flex-row max-w-[1700px]">
+        {/* TITLE */}
+        <div className="flex gap-3 items-center pb-4 sm:pb-0">
+          <div className="p-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl shadow-lg">
+            <CreditCard className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-purple-800 bg-clip-text text-transparent font-sans">Fee Management</h1>
+            <p className="text-gray-600 font-sans text-lg hidden sm:block">Track and manage organization fees</p>
+          </div>
+        </div>
       </div>
 
-      <AnimatePresence>
-        {!isFiltering && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mb-6 p-6 bg-white rounded-lg shadow-sm border"
-          >
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Fee Summary</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <p className="text-sm text-gray-600">
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium text-green-600">Paid Fees:</span> {filteredStats.paidCount}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium text-red-600">Unpaid Fees:</span> {filteredStats.unpaidCount}
-                </p>
-                <p className="text-sm text-gray-700">
-                  <span className="font-medium text-blue-600">Total Paid Amount: </span>
-                  ₱{filteredStats.totalAmount.toLocaleString()}
-                </p>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-[320px] h-[280px]">
+      {/* BODY */}
+      <div className="flex gap-8 flex-col-reverse lg:flex-row max-w-[1700px] items-start">
+        {/* TABLE */}
+        <AnimatePresence>
+          {!isFiltering && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-full max-w-[95vw] xl:max-w-[80vw] rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-2 overflow-x-auto"
+            >
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow className="font-bold bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shadow-lg">
+                    <TableHead className="text-center font-semibold text-gray-800">Fee ID</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Fee Name</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Organization Name</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Amount</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">
+                      <div className="flex justify-center">
+                        <Input
+                          className="max-w-[150px] min-w-[125px]"
+                          placeholder="Search AY, Sem..."
+                          value={semAyInput}
+                          onChange={(e) => {
+                            setSemAyInput(e.target.value);
+                            debouncedFilterChange(e.target.value);
+                          }}
+                        />
+                      </div>
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Due Date</TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Payment Date</TableHead>
+                    <TableHead>
+                      <div className="flex justify-center">
+                        <Select
+                          value={filters.isPaid}
+                          onValueChange={(value) => handleFilterChange("isPaid", value)}
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue placeholder="Is Paid" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="All">All</SelectItem>
+                            <SelectItem value="true">Paid</SelectItem>
+                            <SelectItem value="false">Unpaid</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </TableHead>
+                    <TableHead>
+                      <div className="flex justify-center">
+                        <Select
+                          value={filters.isLate}
+                          onValueChange={(value) => handleFilterChange("isLate", value)}
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue placeholder="Is Late" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="All">All</SelectItem>
+                            <SelectItem value="true">Late</SelectItem>
+                            <SelectItem value="false">Not Late</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-gray-800">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredFees.map((fee) => (
+                    <TableRow key={fee.fee_id} className="text-center hover:bg-purple-50/50 transition-colors">
+                      <TableCell className="font-medium text-gray-900">{fee.fee_id}</TableCell>
+                      <TableCell className="text-gray-700">{fee.fee_name}</TableCell>
+                      <TableCell className="text-gray-700">{fee.org_name}</TableCell>
+                      <TableCell className="font-medium text-gray-900">₱{fee.amount.toLocaleString()}</TableCell>
+                      <TableCell className="font-medium text-gray-900">{fee.sem_ay}</TableCell>
+                      <TableCell className="text-gray-700">{formatDate(fee.due_date)}</TableCell>
+                      <TableCell className="text-gray-700">{formatDateTime(fee.payment_date)}</TableCell>
+                      <TableCell>
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          fee.isPaid 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {fee.isPaid ? 'Paid' : 'Unpaid'}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          fee.isLate 
+                            ? 'bg-yellow-100 text-yellow-800' 
+                            : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {fee.isLate ? 'Late' : 'On Time'}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        {!fee.isPaid && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => markFeeAsPaid(fee.fee_id)}
+                            className="border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-colors"
+                          >
+                            <ArrowUp className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredFees.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={9} className="text-center py-8 text-gray-500">
+                        No fees found matching your criteria
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* STATS SIDEBAR */}
+        <AnimatePresence>
+          {!isFiltering && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col mb-4 gap-4 sm:flex-row lg:flex-col min-w-[300px]"
+            >
+              <div className="rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-6">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-purple-800 bg-clip-text text-transparent mb-6 font-sans">Fee Summary</h2>
+                <div className="space-y-3 mb-6">
+                  <p className="text-sm text-gray-600">
+                    <span className="font-medium text-green-600">Paid Fees:</span> {filteredStats.paidCount}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-medium text-red-600">Unpaid Fees:</span> {filteredStats.unpaidCount}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    <span className="font-medium text-blue-600">Total Paid Amount: </span>
+                    ₱{filteredStats.totalAmount.toLocaleString()}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    <span className="font-medium text-blue-600">Total Unpaid Amount: </span>
+                    ₱{filteredStats.totalUnpaidAmount.toLocaleString()}
+                  </p>
+                </div>
+                <div className="w-full h-[280px]">
                   {filteredFees.length > 0 && pieData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -305,121 +461,10 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
                   )}
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {!isFiltering && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="p-6 bg-white rounded-lg shadow-sm border overflow-hidden"
-          >
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-100">
-                  <TableHead className="text-center font-semibold text-gray-800">Fee ID</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Fee Name</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Organization Name</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Amount</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Due Date</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Payment Date</TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">
-                    <div className="flex justify-center">
-                      <Select
-                        value={filters.isPaid}
-                        onValueChange={(value) => handleFilterChange("isPaid", value)}
-                      >
-                        <SelectTrigger className="w-32">
-                          <SelectValue placeholder="Is Paid" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="true">Paid</SelectItem>
-                          <SelectItem value="false">Unpaid</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">
-                    <div className="flex justify-center">
-                      <Select
-                        value={filters.isLate}
-                        onValueChange={(value) => handleFilterChange("isLate", value)}
-                      >
-                        <SelectTrigger className="w-32">
-                          <SelectValue placeholder="Is Late" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="true">Late</SelectItem>
-                          <SelectItem value="false">Not Late</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </TableHead>
-                  <TableHead className="text-center font-semibold text-gray-800">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredFees.map((fee) => (
-                  <TableRow key={fee.fee_id} className="text-center hover:bg-gray-50">
-                    <TableCell className="font-medium text-gray-900">{fee.fee_id}</TableCell>
-                    <TableCell className="text-gray-700">{fee.fee_name}</TableCell>
-                    <TableCell className="text-gray-700">{fee.org_name}</TableCell>
-                    <TableCell className="font-medium text-gray-900">₱{fee.amount.toLocaleString()}</TableCell>
-                    <TableCell className="text-gray-700">{formatDate(fee.due_date)}</TableCell>
-                    <TableCell className="text-gray-700">{formatDateTime(fee.payment_date)}</TableCell>
-                    <TableCell>
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        fee.isPaid 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {fee.isPaid ? 'Paid' : 'Unpaid'}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        fee.isLate 
-                          ? 'bg-yellow-100 text-yellow-800' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {fee.isLate ? 'Late' : 'On Time'}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                        {!fee.isPaid && (
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => markFeeAsPaid(fee.fee_id)}
-                            >
-                                <BanknoteArrowUp className ="" />
-                            </Button>
-                            )}
-                    </TableCell>
-                   
-                  </TableRow>
-                ))}
-                {filteredFees.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={9} className="text-center py-8 text-gray-500">
-                      No fees found matching your criteria
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-     
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

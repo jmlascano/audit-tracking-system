@@ -22,12 +22,12 @@ const MemberPage = () => {
 
   return (
     <>
-    <Header  onLogout={handleLogout}
+    <Header onLogout={handleLogout}
             user={user}  />
-      <div className="flex justify-between mx-12 mb-8 mt-9">
+      <div className="flex justify-between mx-16 mb-8 mt-12">
         <h1 className="text-3xl font-bold font-inter">Hi, {member_name}!</h1>
       </div>
-        <MembersFeeTable member_id={member_id} />
+        <MembersFeeTable member_id={member_id} /> 
     </>
   );
 };

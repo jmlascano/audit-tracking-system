@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Search, Users, Filter } from 'lucide-react';
+import { Pencil, Trash2, Search, Users, Filter, Wallet } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import AddFeeDialog from "./AddFeeDialog.tsx";
@@ -275,10 +275,10 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div className="flex items-center space-x-3">
               <div className="p-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl shadow-lg">
-                <Users className="w-8 h-8 text-white" />
+                <Wallet className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-600 to-purple-800 bg-clip-text text-transparent font-sans">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-purple-800 bg-clip-text text-transparent font-sans">
                   Fee Management
                 </h1>
                 <p className="text-gray-600 font-sans text-lg">Track and manage organization fees</p>

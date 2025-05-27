@@ -133,9 +133,9 @@ export const searchAndFilterMembers = async (req, res) => {
 export const addMemberToOrg = async (req, res) => {
   try {
     const { orgId } = req.params;
-    const { member_username, batch, acad_year, acad_sem, committee_role, status } = req.body;
+    const { member_username, batch, acad_year, acad_sem, committee, role, status } = req.body;
 
-    if (!member_username || !batch || !acad_year || !acad_sem || !committee_role || !status) {
+    if (!member_username || !batch || !acad_year || !acad_sem || !committee || !role || !status) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -150,11 +150,11 @@ export const addMemberToOrg = async (req, res) => {
     const member_id = memberResult[0].member_id;
 
     const insertQuery = `
-      INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee_role, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee, role, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    await db.query(insertQuery, [member_id, orgId, batch, acad_year, acad_sem, committee_role, status]);
+    await db.query(insertQuery, [member_id, orgId, batch, acad_year, acad_sem, committee, role, status]);
 
     return res.status(201).json({
       success: true,

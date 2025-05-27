@@ -22,6 +22,7 @@ import EditMemberDialog from "./EditMemberDialog";
 import DeleteMemberDialog from "./DeleteMemberDialog";
 import OrgMemberStats from "./OrgMemberStats";
 import OrgEvents from "./OrgEvents";
+import { Users } from "lucide-react";
 
 interface Member {
   member_id: number;
@@ -106,16 +107,27 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
 
   return (
     <div className="min-h-screen flex flex-col lg:p-6">
+        {/* HEADER */}
         <div className="flex flex-col justify-between pb-4 sm:flex-row max-w-[1700px]">
-            <h1 className="text-2xl font-bold text-gray-900 pb-2">Member Management</h1>
-            <div className="flex gap-4">
-              <Input 
-                className="max-w-[250px] border-purple-200 focus:border-purple-400 focus:ring-purple-200 transition-colors" 
-                placeholder="Search members..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-              <AddMemberDialog org_id={org_id} onMemberAdded={() => fetchMembers()}/>
+          {/* TITLE */}
+          <div className="flex gap-3 items-center pb-4 sm:pb-0">
+            <div className="p-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl shadow-lg">
+              <Users className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-purple-800 bg-clip-text text-transparent font-sans">Member Management</h1>
+              <p className="text-gray-600 font-sans text-lg hidden sm:block">Track and manage organization members</p>
+            </div>
+          </div>
+          {/* ACTIONS */}
+          <div className="flex gap-4">
+            <Input 
+              className="max-w-[250px] border-purple-200 focus:border-purple-400 focus:ring-purple-200 transition-colors" 
+              placeholder="Search members..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <AddMemberDialog org_id={org_id} onMemberAdded={() => fetchMembers()}/>
           </div>
         </div>
         {/* BODY */}
