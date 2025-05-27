@@ -66,31 +66,31 @@ CREATE TABLE fee(
 );
 
 INSERT INTO org (org_username, org_name, org_email, org_password) VALUES
-('codeclub', 'Code Club', 'codeclub@example.com', 'password123'),
+('ilove127club', 'ilove127 Club', 'ilove127club@example.com', 'password123'),
 ('artcircle', 'Art Circle', 'artcircle@example.com', 'password123'),
 ('enviroorg', 'Environment Org', 'enviroorg@example.com', 'password123');
 
 INSERT INTO member (member_username, member_name, member_password, gender, member_email, degree_program) VALUES
-('user01', 'Alice Tan', 'pwd1', 'Female', 'alice01@example.com', 'BSCS'),
-('user02', 'Ben Cruz', 'pwd2', 'Male', 'ben02@example.com', 'BSIT'),
-('user03', 'Cara Yu', 'pwd3', 'Female', 'cara03@example.com', 'BSCS'),
-('user04', 'Dale Lee', 'pwd4', 'Male', 'dale04@example.com', 'BSIS'),
-('user05', 'Ella Reyes', 'pwd5', 'Female', 'ella05@example.com', 'BSCS'),
-('user06', 'Frank Uy', 'pwd6', 'Male', 'frank06@example.com', 'BSIT'),
-('user07', 'Gina Woo', 'pwd7', 'Female', 'gina07@example.com', 'BSIS'),
-('user08', 'Hank Tan', 'pwd8', 'Male', 'hank08@example.com', 'BSCS'),
-('user09', 'Ivy Lim', 'pwd9', 'Female', 'ivy09@example.com', 'BSIT'),
-('user10', 'Jack Ong', 'pwd10', 'Male', 'jack10@example.com', 'BSCS'),
-('user11', 'Kara Dela Cruz', 'pwd11', 'Female', 'kara11@example.com', 'BSIS'),
-('user12', 'Liam Santos', 'pwd12', 'Male', 'liam12@example.com', 'BSCS'),
-('user13', 'Mona Garcia', 'pwd13', 'Female', 'mona13@example.com', 'BSIT'),
-('user14', 'Nico Rivera', 'pwd14', 'Male', 'nico14@example.com', 'BSCS'),
-('user15', 'Olive Chan', 'pwd15', 'Female', 'olive15@example.com', 'BSIS'),
-('user16', 'Paul Velasquez', 'pwd16', 'Male', 'paul16@example.com', 'BSIT'),
-('user17', 'Quinn Yu', 'pwd17', 'Other', 'quinn17@example.com', 'BSCS'),
-('user18', 'Ria Javier', 'pwd18', 'Female', 'ria18@example.com', 'BSIS'),
-('user19', 'Sam Go', 'pwd19', 'Male', 'sam19@example.com', 'BSCS'),
-('user20', 'Tina Lao', 'pwd20', 'Female', 'tina20@example.com', 'BSIT');
+('jnmei', 'Jana Mei Lascano', 'password123', 'Female', 'janamei@example.com', 'BS Software Engineering'),
+('giovannjosh', 'Giovann Josh Apolinar', 'password123', 'Male', 'giovannjosh@example.com', 'BS Computer Science'),
+('alexgabriel', 'Alexander Gabriel Aranes', 'password123', 'Male', 'alexgabriel@example.com', 'BS Information Technology'),
+('hugzbernados', 'Hugz Christian Bernados', 'password123', 'Male', 'hugzbernados@example.com', 'BS Computer Engineering'),
+('mariagracy', 'Maria Gracy De Guzman', 'password123', 'Female', 'mariagracy@example.com', 'BS Information Systems'),
+('danehenrich', 'Dane Henrich Garcia', 'password123', 'Other', 'danehenrich@example.com', 'BS Information Technology'),
+('victorluis', 'Victor Luis Ibanez', 'password123', 'Male', 'victorluis@example.com', 'BS Computer Engineering'),
+('mykojeff', 'Myko Jefferson Javier', 'password123', 'Male', 'mykojeff@example.com', 'BS Software Engineering'),
+('shamellarosa', 'Shamel Larosa', 'password123', 'Female', 'shamellarosa@example.com', 'BS Computer Science'),
+('gabmainit', 'Bien Gabriel Mainit', 'password123', 'Male', 'gabmainit@example.com', 'BS Information Technology'),
+('tanyamarinelle', 'Tanya Marinelle Manaoat', 'password123', 'Female', 'tanyamarinelle@example.com', 'BS Computer Engineering'),
+('normaniii', 'Norman III Marfa', 'password123', 'Male', 'normaniii@example.com', 'BS Software Engineering'),
+('eronjay', 'Eron Jay Matira', 'password123', 'Male', 'eronjay@example.com', 'BS Information Systems'),
+('justindayne', 'Justin Dayne Bryant Pena', 'password123', 'Male', 'justindayne@example.com', 'BS Computer Science'),
+('yhannisg', 'Yhannis Geosh Prudencio', 'password123', 'Male', 'yhannisg@example.com', 'BS Information Systems'),
+('yanikatauro', 'Yanika Illi Tauro', 'password123', 'Female', 'yanikatauro@example.com', 'BS Information Technology'),
+('arabelaturdanes', 'Arabela Turdanes', 'password123', 'Female', 'arabelaturdanes@example.com', 'BS Software Engineering'),
+('nicolephoebe', 'Nicole Phoebe Valentino', 'password123', 'Female', 'nicolephoebe@example.com', 'BS Computer Science'),
+('tawimanamtam', 'Tawi Manamtam', 'password123', 'Male', 'tawimanamtam@example.com', 'BS Computer Engineering'),
+('emybautista', 'John Emy Bautista', 'password123', 'Male', 'emybautista@example.com', 'BS Computer Science');
 
 INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee, role, status) VALUES
 (1, 1, 'hash', 2425, '1', 'Executive', 'President', 'Active'),
@@ -134,23 +134,41 @@ INSERT INTO fee (fee_name, amount, due_date, sem_issued, acad_year_issued, payme
 ('Tech Fee', 250.00, '2023-11-01', '2', 2324, '2023-10-20', 17, 1),
 ('Membership Dues', 100.00, '2025-02-18', '2', 2425, '2025-02-15', 18, 2),
 ('Support Fee', 85.00, '2025-03-20', 'm', 2425, '2025-03-15', 19, 3),
-('Organizing Fee', 300.00, '2024-10-20', '1', 2425, '2024-10-18', 20, 1);
+('Organizing Fee', 300.00, '2024-10-20', '1', 2425, '2024-10-18', 20, 1),
+('Donation Drive', 60.00, '2024-09-15', '1', 2425, '2024-09-14', 2, 2),
+('Volunteer Kit', 95.00, '2025-03-01', '2', 2425, '2025-02-28', 4, 3),
+('Exhibit Entry', 150.00, '2023-11-20', '1', 2324, '2023-11-19', 6, 1),
+('Sports Fund', 130.00, '2023-08-15', '1', 2324, '2023-08-13', 9, 2),
+('Seminar Materials', 140.00, '2024-10-10', '1', 2425, '2024-10-09', 12, 3),
+('Publicity Fee', 75.00, '2023-06-30', 'm', 2223, '2023-06-30', 17, 3),
+('Event Snacks', 110.00, '2025-04-15', 'm', 2425, '2025-04-15', 18, 1),
 
 -- Unpaid Fees 
-INSERT INTO fee (fee_name, amount, due_date, sem_issued, acad_year_issued, payment_date, member_id, org_id) VALUES
 ('Membership Fee', 150.00, '2025-01-15', '2', 2425, NULL, 1, 1),
 ('Event Contribution', 200.00, '2024-09-30', '1', 2425, NULL, 5, 2),
 ('Annual Dues', 300.00, '2023-10-01', '1', 2324, NULL, 11, 3),
 ('Project Materials', 120.00, '2023-06-15', '2', 2324, NULL, 7, 2),
-('Special Event Fee', 250.00, '2024-11-05', '1', 2425, NULL, 14, 1);
+('Special Event Fee', 250.00, '2024-11-05', '1', 2425, NULL, 14, 1),
+('T-Shirt Fee', 220.00, '2024-07-10', '1', 2425, '2024-07-15', 1, 1),
+('Donation', 50.00, '2023-10-05', '1', 2324, '2023-10-10', 5, 2),
+('Webinar Access', 180.00, '2024-11-01', '2', 2425, '2024-11-07', 8, 3),
+('Registration Fee', 300.00, '2023-05-20', '2', 2223, '2023-06-01', 14, 3),
+('Volunteer Shirt', 130.00, '2023-12-12', '2', 2324, '2023-12-20', 16, 2),
+('Alumni Gathering', 200.00, '2024-08-05', '1', 2425, '2024-08-10', 19, 1),
+('Tournament Fee', 90.00, '2024-07-01', '1', 2425, '2024-07-04', 20, 3),
 
 -- Late Payments
-INSERT INTO fee (fee_name, amount, due_date, sem_issued, acad_year_issued, payment_date, member_id, org_id) VALUES
 ('Membership Fee', 150.00, '2024-08-01', '1', 2425, '2024-08-10', 3, 1),
 ('Workshop Fee', 180.00, '2023-12-01', '2', 2324, '2023-12-15', 8, 3),
 ('Event Pass', 100.00, '2023-04-20', '2', 2223, '2023-05-01', 10, 2),
 ('Fundraising Contribution', 75.00, '2023-10-10', '1', 2324, '2023-10-25', 6, 1),
-('Seminar Fee', 90.00, '2024-01-30', '2', 2425, '2024-02-05', 13, 3);
+('Seminar Fee', 90.00, '2024-01-30', '2', 2425, '2024-02-05', 13, 3),
+('Outreach Contribution', 125.00, '2025-02-28', '2', 2425, NULL, 3, 1),
+('Yearbook Fee', 300.00, '2023-09-15', '1', 2324, NULL, 7, 2),
+('Cultural Night', 150.00, '2024-12-10', '2', 2425, NULL, 11, 2),
+('Foundation Support', 275.00, '2025-03-10', 'm', 2425, NULL, 13, 3),
+('Magazine Subscription', 100.00, '2024-05-01', '2', 2324, NULL, 15, 1),
+('Welcome Kit', 200.00, '2023-08-20', '1', 2324, NULL, 10, 2);
 
 
 INSERT INTO org_event (org_id, event) VALUES
@@ -160,60 +178,3 @@ INSERT INTO org_event (org_id, event) VALUES
 (2, 'Painting Workshop 2024'),
 (3, 'Tree Planting 2023'),
 (3, 'Eco Seminar 2024');
-
-
-/*
--- Insert 3 sample orgs
-INSERT INTO org (org_username, org_name, org_password, org_email)
-VALUES
-('yses', "Young Software Engineers' Society", 'yses123', 'exec@yses.org'),
-('coss', 'Computer Science Society', 'coss123', 'exec@coss.org'),
-('acss', 'Alliance of Computer Science Students', 'acss123', 'exec@acss.org');
-
--- Insert 5 sample members
-INSERT INTO member (member_username, member_name, member_password, gender, member_email, degree_program)
-VALUES
-('jnmei', 'Jana Mei Lascano', 'jana123', 'Female', 'jana@examle.com', null),
-('may_bieu', 'Bien Mainit', 'bien123', 'Male', 'bien@examle.com', 'BS Computer Science'),
-('dnhnrch', 'Dane Garcia', 'dane123', 'Female', 'dane@examle.com', 'BS Computer Science'),
-('tawisaur', 'Thyron Manamtam', 'tawi123', "Other", 'tawi@example.com', 'BS Computer Science'),
-('moonsky', 'Emy Bautista', 'emy123', "Other", 'emy@example.com', 'BS Computer Science'), 
-('sir_reg', 'Reginald Recario', 'sirreg123', "Other", 'sirreg@example.com', null);
-
--- Insert 3 sample member_part_of_org
-INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee_role, status)
-VALUES
-(1, 1, 'hash', 2425, '1', 'Member', 'Active'),
-(1, 1, 'hash', 2425, '2', 'Member', 'Inactive'),
-(3, 1, 'hash', 2425, '1', 'Member', 'Active'),
-(3, 1, 'hash', 2425, '2', 'Treasurer', 'Active'),
-(5, 1, 'hash', 2425, '1', 'Member', 'Active'),
-(5, 1, 'hash', 2425, '2', 'President', 'Active'),
-(2, 2, 'float(inf)', 2324, '2', 'Member', 'Active'),
-(2, 2, 'float(inf)', 2324, 'm', 'Member', 'Active'),
-(2, 2, 'float(inf)', 2425, '1', 'President', 'Active'),
-(2, 2, 'float(inf)', 2425, '2', 'President', 'Active'),
-(4, 2, 'float(inf)', 2324, '2', 'Member', 'Active'),
-(4, 2, 'float(inf)', 2324, 'm', 'Member', 'Active'),
-(4, 2, 'float(inf)', 2425, '1', 'Secretary', 'Active'),
-(4, 2, 'float(inf)', 2425, '2', 'Secretary', 'Active');
-
-INSERT INTO member_part_of_org (member_id, org_id, acad_year, acad_sem, status)
-VALUES
-(6, 1, 2425, '1', 'Alumni');
-
--- Insert sample fees
-INSERT INTO fee (fee_name, amount, due_date, sem_issued, acad_year_issued, payment_date, member_id, org_id)
-VALUES
-('Membership Fee', 10.00, '2025-04-15', '2', 2425, '2025-04-20', 1, 1),
-('Event Fee', 20.00, '2024-10-20', '1', 2425, '2024-10-25', 2, 2),
-('Membership Fee', 30.00, '2025-04-15', '2', 2425, NULL, 3, 1);
-
--- Insert sample events
-INSERT INTO org_event (org_id, event)
-VALUES
-(1, 'Ideathon'),
-(2, 'WarFrames'),
-(3, 'Sublimed');
-
-*/
