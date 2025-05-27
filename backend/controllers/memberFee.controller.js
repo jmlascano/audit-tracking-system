@@ -18,7 +18,7 @@ export const getAllMembers = async (req, res) => {
 export const getMemberFees = async (req, res) => {
   try {
     const { memberId } = req.params;
-    const { isPaid, isLate } = req.query;
+    const { sem_ay, isPaid, isLate } = req.query;
 
     let query = `
       SELECT f.fee_id, f.fee_name, o.org_name, f.amount, f.due_date, f.payment_date, 
@@ -28,7 +28,12 @@ export const getMemberFees = async (req, res) => {
                WHEN f.payment_date IS NULL AND CURDATE() > f.due_date THEN 1
                WHEN f.payment_date IS NOT NULL AND f.payment_date > f.due_date THEN 1
                ELSE NULL
-             END AS isLate
+             END AS isLate,
+             CASE 
+              WHEN f.sem_issued = '1' THEN CONCAT(SUBSTRING(f.acad_year_issued,1,2), '-', SUBSTRING(f.acad_year_issued,3), ', ', f.sem_issued, 'st Sem') 
+              WHEN f.sem_issued = '2' THEN CONCAT(SUBSTRING(f.acad_year_issued,1,2), '-', SUBSTRING(f.acad_year_issued,3), ', ', f.sem_issued, 'nd Sem') 
+              ELSE CONCAT(SUBSTRING(f.acad_year_issued,1,2), '-', SUBSTRING(f.acad_year_issued,3), ', ', 'Midyear') 
+            END sem_ay
       FROM fee f
       JOIN member m ON f.member_id = m.member_id 
       JOIN member_part_of_org mpo ON mpo.member_id = m.member_id
@@ -51,6 +56,13 @@ export const getMemberFees = async (req, res) => {
         END
       ) = ?`;
       params.push(isLate === 'true' ? 1 : 0);
+    }
+
+    if(sem_ay !== undefined) {
+      const year = sem_ay.substring(0,2) + sem_ay.substring(3,5);
+      const sem = sem_ay.substring(7,8);
+      query += ' AND f.acad_year_issued LIKE ? AND f.sem_issued LIKE ?';
+      params.push(year, sem);
     }
 
     query += ' ORDER BY f.acad_year_issued DESC, f.sem_issued DESC, f.due_date DESC';
