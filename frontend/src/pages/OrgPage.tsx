@@ -5,7 +5,7 @@ import OrgFeeTable from "@/components/custom/OrgFeeTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const OrgPage = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const org_id = user.id ? user.id : 1; // Since user could be null, lets just default it to 1 lol
     const org_name = user.name ? user.name : "Young Software Engineers' Society"; // Since user could be null, lets just default it to YSES lol
 
