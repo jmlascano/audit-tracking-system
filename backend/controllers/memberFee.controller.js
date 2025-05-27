@@ -6,7 +6,7 @@ export const getMemberFees = async (req, res) => {
     const { isPaid, isLate } = req.query;
 
     let query = `
-      SELECT f.fee_id, f.fee_name, m.member_name, f.amount, f.due_date, f.payment_date, 
+      SELECT f.fee_id, f.fee_name, o.org_name, f.amount, f.due_date, f.payment_date, 
              f.sem_issued, f.acad_year_issued,
              CASE WHEN f.payment_date IS NULL THEN NULL ELSE 1 END AS isPaid,
              CASE 
@@ -15,7 +15,9 @@ export const getMemberFees = async (req, res) => {
                ELSE NULL
              END AS isLate
       FROM fee f
-      JOIN member m ON f.member_id = m.member_id
+      JOIN member m ON f.member_id = m.member_id 
+      JOIN member_part_of_org mpo ON mpo.member_id = m.member_id
+      JOIN org o ON mpo.org_id = o.org_id
       WHERE f.member_id = ?
     `;
     const params = [memberId];
@@ -89,7 +91,7 @@ export const payFee = async (req, res) => {
     const { memberId, feeId } = req.params;
 
     const insertQuery = `
-     update fee SET payment_date = CURDATE() where fee_id = ?
+     update fee SET payment_date = CURDATE() WHERE fee_id = ?
     `;
 
     await db.query(insertQuery, [feeId]);
