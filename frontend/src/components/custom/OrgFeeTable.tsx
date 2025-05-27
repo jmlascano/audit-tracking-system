@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -55,6 +55,14 @@ interface OrgFeeTableProps {
   org_id: number;
 }
 
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const [fees, setFees] = useState<Fee[]>([]);
   const [stats, setStats] = useState<FeeStats | null>(null);
@@ -69,6 +77,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [feeToDelete, setFeeToDelete] = useState<number | null>(null);
+  const [semAyInput, setSemAyInput] = useState("");
 
   const fetchFees = async () => {
     try {
@@ -141,6 +150,14 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
       return newFilters;
     });
   }, []);
+
+  // Debounced version of the filter change handler
+  const debouncedFilterChange = useMemo(
+    () => debounce((value: string) => {
+      handleFilterChange("sem_ay", value);
+    }, 500), // 500ms delay
+    [handleFilterChange]
+  );
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -376,8 +393,11 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
                       <Input
                           className="max-w-[150px] min-w-[125px]"
                           placeholder="Search AY, Sem..."
-                          value={filters.sem_ay}
-                          onChange={(e) => handleFilterChange("sem_ay", e.target.value)}
+                          value={semAyInput}
+                          onChange={(e) => {
+                            setSemAyInput(e.target.value);
+                            debouncedFilterChange(e.target.value);
+                          }}
                       />
                       </div>
                   </TableHead>
