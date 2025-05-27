@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, User, Settings, LogOut, CreditCard, Building2, BarChart3, X, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const Header = ({ onLogout, user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,7 +49,6 @@ const Header = ({ onLogout, user }) => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        alert('Profile updated successfully!');
         // Update user object if you have a way to do so
         // This depends on your app's state management
         closeDialog();
@@ -62,6 +62,10 @@ const Header = ({ onLogout, user }) => {
       setIsLoading(false);
     }
   };
+
+  const profiletoast = () => {
+    toast("Not yet implemented hehe");
+  }
 
   return (
     <>
@@ -114,7 +118,7 @@ const Header = ({ onLogout, user }) => {
                       )}
                     </div>
                     <a
-                      href="#"
+                      onClick={profiletoast}
                       className="flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-150"
                     >
                       <User className="h-4 w-4" />
