@@ -18,7 +18,7 @@ const OrgPage = () => {
   return (
     <>
       <div className="flex justify-between mx-16 mb-8 mt-16">
-        <h1 className="text-3xl font-bold font-inter">Hi {org_name}!</h1>
+        <h1 className="text-3xl font-bold font-inter">Hi, {org_name}!</h1>
         <Button variant="destructive" onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 shadow-lg">
           <Link to="/">Log Out</Link>
         </Button>
