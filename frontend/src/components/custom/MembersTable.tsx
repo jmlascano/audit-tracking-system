@@ -121,8 +121,8 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
         {/* BODY */}
         <div className="flex gap-8 flex-col-reverse lg:flex-row max-w-[1700px] items-start">
           {/* TABLE */}
-          <div className="min-w-[250px] rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-2">
-          <Table>
+          <div className="w-full max-w-[95vw] xl:max-w-[80vw] rounded-lg border-1 border-purple-200 bg-gradient-to-br from-purple-50 to-white-50 shadow-lg p-2 overflow-x-auto">
+          <Table className="w-full">
               <TableHeader>
                   <TableRow className="font-bold bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg shadow-lg">
                       <TableHead className="text-center" >Username</TableHead>
