@@ -183,6 +183,9 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     totalAmount: filteredFees
       .filter(fee => fee.isPaid)
       .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
+    totalUnpaidAmount: filteredFees
+      .filter(fee => !fee.isPaid)
+      .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
     paidCount: filteredFees.filter(fee => fee.isPaid).length,
     unpaidCount: filteredFees.filter(fee => !fee.isPaid).length,
     highestDebt: filteredFees.reduce((max, fee) => {
@@ -394,6 +397,10 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
                   <p className="text-sm text-gray-700">
                     <span className="font-medium text-blue-600">Total Paid Amount: </span>
                     ₱{filteredStats.totalAmount.toLocaleString()}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    <span className="font-medium text-blue-600">Total Unpaid Amount: </span>
+                    ₱{filteredStats.totalUnpaidAmount.toLocaleString()}
                   </p>
                 </div>
                 <div className="w-full h-[280px]">

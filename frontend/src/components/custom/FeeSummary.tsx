@@ -46,6 +46,9 @@ const FeeSummary: React.FC<FeeSummaryProps> = ({ fees, isFiltering }) => {
     totalAmount: fees
       .filter(fee => fee.isPaid)
       .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
+    totalUnpaidAmount: fees
+      .filter(fee => !fee.isPaid)
+      .reduce((sum, fee) => sum + (typeof fee.amount === 'number' ? fee.amount : Number(fee.amount) || 0), 0),
     paidCount: fees.filter(fee => fee.isPaid).length,
     unpaidCount: fees.filter(fee => !fee.isPaid).length,
     highestDebt,
@@ -89,17 +92,21 @@ const FeeSummary: React.FC<FeeSummaryProps> = ({ fees, isFiltering }) => {
         <div className="space-y-3 mt-4">
           <p className="text-base text-gray-600 font-medium font-sans">
             <span className="font-bold">Member with Highest Debt:</span> {filteredStats.highestDebt.member_name}
-            <span className="font-bold text-yellow-500"> (₱{filteredStats.highestDebt.amount.toLocaleString()})</span>
+            <span className="font-bold text-yellow-700"> (₱{filteredStats.highestDebt.amount.toLocaleString()})</span>
           </p>
           <p className="text-base text-gray-600 font-medium font-sans">
             <span className="font-bold text-purple-600">Paid Fees:</span> {filteredStats.paidCount}
           </p>
           <p className="text-base text-gray-600 font-medium font-sans">
-            <span className="font-bold text-yellow-500">Unpaid Fees:</span> {filteredStats.unpaidCount}
+            <span className="font-bold text-yellow-700">Unpaid Fees:</span> {filteredStats.unpaidCount}
           </p>
           <p className="text-base text-gray-600 font-medium font-sans">
-            <span className="font-bold text-purple-600">Total Paid Amount:</span>
+            <span className="font-bold text-purple-600">Total Paid Amount: </span>
             ₱{filteredStats.totalAmount.toLocaleString()}
+          </p>
+          <p className="text-base text-gray-600 font-medium font-sans">
+            <span className="font-bold text-yellow-700">Total Unpaid Amount: </span>
+            ₱{filteredStats.totalUnpaidAmount.toLocaleString()}
           </p>
         </div>
         <div className="w-full h-[280px] mt-6 flex justify-center">
