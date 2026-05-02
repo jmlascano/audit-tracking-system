@@ -1,7 +1,8 @@
-import { loginUser, signupMember, signupOrg } from "../controllers/user.controller.js";
+import { signupMember, signupOrg, getCurrentUser } from '../controllers/user.controller.js';
+import { requireAuth } from '../middleware/auth.js';
 
 export const userRouter = (app) => {
-  app.post("/login", loginUser);
-  app.post("/signup/orgs", signupOrg);
-  app.post("/signup/members", signupMember);
-}
+  app.post('/signup/orgs', signupOrg);
+  app.post('/signup/members', signupMember);
+  app.get('/me', requireAuth, getCurrentUser);
+};
