@@ -25,8 +25,6 @@ console.log("\x1b[35m\x1b[1m%s\x1b[0m", "˚ʚ♡ɞ˚ Backend Server ˚ʚ♡ɞ˚\
 // App Router
 router(app);
 
-// Test database connection
-// await testConnection();
 
 const port = process.env.PORT || 3000;
 
