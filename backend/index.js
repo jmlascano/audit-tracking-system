@@ -2,7 +2,6 @@ import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers/router.js";
-import { testConnection } from "./config/database.js";
 
 dotenv.config();
 
