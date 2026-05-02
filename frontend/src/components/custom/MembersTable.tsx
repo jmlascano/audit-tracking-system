@@ -62,7 +62,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
       // For the filter
       const params = Object.fromEntries(
         Object.entries(filters).filter(
-          ([key, value]) => value !== "All" && value !== ""
+          ([_key, value]) => value !== "All" && value !== ""
         )
       );
 

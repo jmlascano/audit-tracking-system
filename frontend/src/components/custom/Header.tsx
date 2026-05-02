@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 interface HeaderUser {
   id: number;
   name: string;
+  member_name?: string;
   email: string;
   gender?: string;
   degree_program?: string;

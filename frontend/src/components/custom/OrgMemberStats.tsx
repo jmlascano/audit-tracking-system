@@ -20,7 +20,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
   const [loading, setLoading] = useState(false);
 
   const fetchStats = async () => {
-    if (!n || isNaN(n) || parseInt(n) <= 0) {
+    if (!n || isNaN(Number(n)) || parseInt(n) <= 0) {
       toast.error('Please enter a valid positive number');
       return;
     }
@@ -109,7 +109,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
                       paddingAngle={2}
                       dataKey="value"
                     >
-                      {chartData.map((entry, index) => (
+                      {chartData.map((_entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index]} />
                       ))}
                     </Pie>
@@ -117,7 +117,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
                     <Legend 
                       verticalAlign="bottom" 
                       height={36}
-                      formatter={(value, entry) => `${value}: ${entry.payload.value}%`}
+                      formatter={(value, entry) => `${value}: ${entry.payload?.value ?? 0}%`}
                     />
                   </PieChart>
                 </ResponsiveContainer>

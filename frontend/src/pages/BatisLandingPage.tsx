@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, FolderCheck, Receipt, Users, LogIn, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp, UserPlus, UserCircle } from 'lucide-react';
+import { BarChart3, FolderCheck, Receipt, Users, Menu, X, Building2, GraduationCap, Heart, Zap, Shield, TrendingUp, UserPlus, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import batisGif from '../assets/batis.gif';
 
@@ -37,7 +37,7 @@ const BatisLandingPage: React.FC = () => {
   const [isTyping, setIsTyping] = useState(true);
   const [activeLink, setActiveLink] = useState<string>('');
   const [activeOrgType, setActiveOrgType] = useState(0);
-  const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+
 
   const phrases = ['Flow Seamlessly', 'Thrive Effortlessly', 'Grow Confidently'];
 
@@ -152,7 +152,7 @@ const BatisLandingPage: React.FC = () => {
     scrollToSection(id);
   };
 
-  const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description, delay = 0 }) => (
+  const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description }) => (
     <div 
        className={`bg-white rounded-xl p-8 shadow-lg transition-[transform,shadow] duration-300 ease-in-out ${
           isVisible.features ? 'opacity-100' : 'opacity-0 translate-y-12'
@@ -166,7 +166,7 @@ const BatisLandingPage: React.FC = () => {
     </div>
   );
 
-  const Screenshot: React.FC<ScreenshotProps> = ({ title, delay = 0 }) => (
+  const Screenshot: React.FC<ScreenshotProps> = ({ title }) => (
     <div 
       className={`bg-white rounded-xl border-4 border-purple-500 transition-[transform,shadow] duration-300 ease-in-out shadow-xl ${
         isVisible.action ? 'opacity-100' : 'opacity-0 translate-y-12'

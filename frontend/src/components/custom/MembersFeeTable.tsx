@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -36,14 +36,6 @@ interface Fee {
   sem_ay: string;
 }
 
-interface FeeStats {
-  ratio: {
-    paid: number;
-    unpaid: number;
-    paid_count: number;
-    unpaid_count: number;
-  };
-}
 
 interface MembersFeeTableProps {
   member_id: number;
@@ -59,7 +51,6 @@ const debounce = (func: (...args: any[]) => void, delay: number) => {
 
 const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
   const [fees, setFees] = useState<Fee[]>([]);
-  const [stats, setStats] = useState<FeeStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
   const [filters, setFilters] = useState({
@@ -67,14 +58,13 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     isLate: "",
     search: "",
   });
-  const [feeToDelete, setToPaid] = useState<number | null>(null);
   const [semAyInput, setSemAyInput] = useState("");
 
   const fetchFees = async () => {
     try {
       const params = Object.fromEntries(
         Object.entries(filters).filter(
-          ([key, value]) => value !== "All" && value !== ""
+          ([_key, value]) => value !== "All" && value !== ""
         )
       );
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/members/${member_id}/fees`, { params });
@@ -86,23 +76,10 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
     }
   };
 
-  const fetchStats = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/orgs/${member_id}/fees/stats`);
-      console.log("Stats response:", response.data);
-      setStats(response.data);
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-      setStats({
-        ratio: { paid: 0, unpaid: 0, paid_count: 0, unpaid_count: 0 }
-      });
-    }
-  };
-
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      await Promise.all([fetchFees(), fetchStats()]);
+      await fetchFees();
       setLoading(false);
     };
     loadData();

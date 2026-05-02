@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Search, Users, Filter, Wallet } from 'lucide-react';
+import { Pencil, Trash2, Search, Filter, Wallet } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import AddFeeDialog from "./AddFeeDialog.tsx";

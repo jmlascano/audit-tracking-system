@@ -1,8 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
-import MembersTable from "@/components/custom/MembersTable";
 import MembersFeeTable from "@/components/custom/MembersFeeTable";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Header from "@/components/custom/Header";
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
