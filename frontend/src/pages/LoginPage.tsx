@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from 'react-router-dom';
 import { LogIn, Menu, X, ArrowRight } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 type FormData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -21,7 +22,7 @@ const Login = () => {
 
   const form = useForm<FormData>({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -29,26 +30,24 @@ const Login = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
-        username: data.username,
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: data.email,
         password: data.password,
       });
 
-      if (response.data.success) {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('userType', response.data.userType);
-        toast.success('Login successful!');
-        if (response.data.userType === 'org') {
-          navigate('/org');
-        } else {
-          navigate('/member');
-        }
-      } else {
+      if (authError) {
         toast.error('Invalid credentials');
+        return;
       }
+
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/me`);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('userType', response.data.userType);
+      toast.success('Login successful!');
+      navigate(response.data.userType === 'org' ? '/org' : '/member');
     } catch (error) {
       console.error('Login error:', error);
-      toast.error('Invalid credentials');
+      toast.error('Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -99,13 +98,14 @@ const Login = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-800 font-semibold">Username</FormLabel>
+                    <FormLabel className="text-gray-800 font-semibold">Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter your username"
+                        type="email"
+                        placeholder="Enter your email"
                         {...field}
                         required
                         className="border-purple-200 focus:ring-purple-600 rounded-lg"
