@@ -96,8 +96,12 @@ export const searchAndFilterMembers = async (req, res) => {
     }
     
     if (sem_ay) {
-      const year = sem_ay.substring(0,2) + sem_ay.substring(3,5);
-      const sem = sem_ay.substring(7,8);
+      // Expected format: "YY-YY, <sem>" e.g. "24-25, 1st Sem"
+      if (!/^\d{2}-\d{2},\s/.test(sem_ay) || sem_ay.length < 8) {
+        return res.status(400).json({ error: 'Invalid sem_ay format' });
+      }
+      const year = sem_ay.substring(0, 2) + sem_ay.substring(3, 5);
+      const sem = sem_ay.substring(7, 8);
       filterConditions.push('mpo.acad_year LIKE ? AND mpo.acad_sem LIKE ?');
       queryParams.push(year, sem);
     }

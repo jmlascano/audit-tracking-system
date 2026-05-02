@@ -1,4 +1,27 @@
+import bcrypt from "bcrypt";
 import db from "../config/database.js";
+
+const SALT_ROUNDS = 12;
+
+// Detects whether a stored value is already a bcrypt hash.
+// Used during the plaintext→bcrypt migration window.
+const isBcryptHash = (value) => /^\$2[ab]\$\d+\$/.test(value);
+
+// Verify a candidate password against a stored value.
+// Handles both legacy plaintext passwords (for migration) and bcrypt hashes.
+// On a successful plaintext match the stored value is re-hashed transparently.
+const verifyAndMigrate = async (candidate, stored, updateHashFn) => {
+  if (isBcryptHash(stored)) {
+    return bcrypt.compare(candidate, stored);
+  }
+  // Legacy plaintext path — constant-time comparison via bcrypt timing
+  const plaintextMatch = candidate === stored;
+  if (plaintextMatch) {
+    const newHash = await bcrypt.hash(candidate, SALT_ROUNDS);
+    await updateHashFn(newHash);
+  }
+  return plaintextMatch;
+};
 
 // Login User
 export const loginUser = async (req, res) => {
@@ -9,36 +32,53 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ error: 'Username and password are required' });
     }
 
-    // Check if user exists in member table
-    const memberQuery = 'SELECT * FROM member WHERE member_username = ? AND member_password = ?';
-    const memberResult = await db.query(memberQuery, [username, password]);
+    // Fetch by username only — never include password in the WHERE clause
+    const memberResult = await db.query(
+      'SELECT * FROM member WHERE member_username = ?',
+      [username]
+    );
 
     if (memberResult.length > 0) {
+      const member = memberResult[0];
+      const valid = await verifyAndMigrate(password, member.member_password, (hash) =>
+        db.query('UPDATE member SET member_password = ? WHERE member_id = ?', [hash, member.member_id])
+      );
+
+      if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+
       return res.status(200).json({
         success: true,
         userType: 'member',
         user: {
-          id: memberResult[0].member_id,
-          username: memberResult[0].member_username,
-          name: memberResult[0].member_name,
-          email: memberResult[0].member_email
+          id: member.member_id,
+          username: member.member_username,
+          name: member.member_name,
+          email: member.member_email
         }
       });
     }
 
-    // Check if user exists in org table
-    const orgQuery = 'SELECT * FROM org WHERE org_username = ? AND org_password = ?';
-    const orgResult = await db.query(orgQuery, [username, password]);
+    const orgResult = await db.query(
+      'SELECT * FROM org WHERE org_username = ?',
+      [username]
+    );
 
     if (orgResult.length > 0) {
+      const org = orgResult[0];
+      const valid = await verifyAndMigrate(password, org.org_password, (hash) =>
+        db.query('UPDATE org SET org_password = ? WHERE org_id = ?', [hash, org.org_id])
+      );
+
+      if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+
       return res.status(200).json({
         success: true,
         userType: 'org',
         user: {
-          id: orgResult[0].org_id,
-          username: orgResult[0].org_username,
-          name: orgResult[0].org_name,
-          email: orgResult[0].org_email
+          id: org.org_id,
+          username: org.org_username,
+          name: org.org_name,
+          email: org.org_email
         }
       });
     }
@@ -67,24 +107,18 @@ export const signupMember = async (req, res) => {
       return res.status(400).json({ error: 'Required fields: member_email, member_username, member_password, member_name' });
     }
 
-    const insertQuery = `
-      INSERT INTO member (member_username, member_name, member_password, gender, member_email, degree_program)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `;
+    const hashedPassword = await bcrypt.hash(member_password, SALT_ROUNDS);
 
-    const result = await db.query(insertQuery, [
-      member_username,
-      member_name,
-      member_password,
-      gender || 'Other',
-      member_email,
-      degree_program
-    ]);
+    const result = await db.query(
+      `INSERT INTO member (member_username, member_name, member_password, gender, member_email, degree_program)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [member_username, member_name, hashedPassword, gender || 'Other', member_email, degree_program]
+    );
 
     return res.status(201).json({
       success: true,
       message: 'Member registered successfully',
-      memberId: result.insertId.toString
+      memberId: result.insertId.toString()
     });
 
   } catch (error) {
@@ -110,22 +144,18 @@ export const signupOrg = async (req, res) => {
       return res.status(400).json({ error: 'All fields are required: org_email, org_username, org_password, org_name' });
     }
 
-    const insertQuery = `
-      INSERT INTO org (org_username, org_name, org_email, org_password)
-      VALUES (?, ?, ?, ?)
-    `;
+    const hashedPassword = await bcrypt.hash(org_password, SALT_ROUNDS);
 
-    const result = await db.query(insertQuery, [
-      org_username,
-      org_name,
-      org_email,
-      org_password
-    ]);
+    const result = await db.query(
+      `INSERT INTO org (org_username, org_name, org_email, org_password)
+       VALUES (?, ?, ?, ?)`,
+      [org_username, org_name, org_email, hashedPassword]
+    );
 
     return res.status(201).json({
       success: true,
       message: 'Organization registered successfully',
-      orgId: result.insertId.toString
+      orgId: result.insertId.toString()
     });
 
   } catch (error) {

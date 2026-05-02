@@ -66,31 +66,31 @@ CREATE TABLE fee(
 );
 
 INSERT INTO org (org_username, org_name, org_email, org_password) VALUES
-('ilove127club', 'ilove127 Club', 'ilove127club@example.com', 'password123'),
-('artcircle', 'Art Circle', 'artcircle@example.com', 'password123'),
-('enviroorg', 'Environment Org', 'enviroorg@example.com', 'password123');
+('ilove127club', 'ilove127 Club', 'ilove127club@example.com', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq'),
+('artcircle', 'Art Circle', 'artcircle@example.com', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq'),
+('enviroorg', 'Environment Org', 'enviroorg@example.com', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq');
 
 INSERT INTO member (member_username, member_name, member_password, gender, member_email, degree_program) VALUES
-('jnmei', 'Jana Mei Lascano', 'password123', 'Female', 'janamei@example.com', 'BS Software Engineering'),
-('giovannjosh', 'Giovann Josh Apolinar', 'password123', 'Male', 'giovannjosh@example.com', 'BS Computer Science'),
-('alexgabriel', 'Alexander Gabriel Aranes', 'password123', 'Male', 'alexgabriel@example.com', 'BS Information Technology'),
-('hugzbernados', 'Hugz Christian Bernados', 'password123', 'Male', 'hugzbernados@example.com', 'BS Computer Engineering'),
-('mariagracy', 'Maria Gracy De Guzman', 'password123', 'Female', 'mariagracy@example.com', 'BS Information Systems'),
-('danehenrich', 'Dane Henrich Garcia', 'password123', 'Other', 'danehenrich@example.com', 'BS Information Technology'),
-('victorluis', 'Victor Luis Ibanez', 'password123', 'Male', 'victorluis@example.com', 'BS Computer Engineering'),
-('mykojeff', 'Myko Jefferson Javier', 'password123', 'Male', 'mykojeff@example.com', 'BS Software Engineering'),
-('shamellarosa', 'Shamel Larosa', 'password123', 'Female', 'shamellarosa@example.com', 'BS Computer Science'),
-('gabmainit', 'Bien Gabriel Mainit', 'password123', 'Male', 'gabmainit@example.com', 'BS Information Technology'),
-('tanyamarinelle', 'Tanya Marinelle Manaoat', 'password123', 'Female', 'tanyamarinelle@example.com', 'BS Computer Engineering'),
-('normaniii', 'Norman III Marfa', 'password123', 'Male', 'normaniii@example.com', 'BS Software Engineering'),
-('eronjay', 'Eron Jay Matira', 'password123', 'Male', 'eronjay@example.com', 'BS Information Systems'),
-('justindayne', 'Justin Dayne Bryant Pena', 'password123', 'Male', 'justindayne@example.com', 'BS Computer Science'),
-('yhannisg', 'Yhannis Geosh Prudencio', 'password123', 'Male', 'yhannisg@example.com', 'BS Information Systems'),
-('yanikatauro', 'Yanika Illi Tauro', 'password123', 'Female', 'yanikatauro@example.com', 'BS Information Technology'),
-('arabelaturdanes', 'Arabela Turdanes', 'password123', 'Female', 'arabelaturdanes@example.com', 'BS Software Engineering'),
-('nicolephoebe', 'Nicole Phoebe Valentino', 'password123', 'Female', 'nicolephoebe@example.com', 'BS Computer Science'),
-('tawimanamtam', 'Tawi Manamtam', 'password123', 'Male', 'tawimanamtam@example.com', 'BS Computer Engineering'),
-('emybautista', 'John Emy Bautista', 'password123', 'Male', 'emybautista@example.com', 'BS Computer Science');
+('jnmei', 'Jana Mei Lascano', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'janamei@example.com', 'BS Software Engineering'),
+('giovannjosh', 'Giovann Josh Apolinar', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'giovannjosh@example.com', 'BS Computer Science'),
+('alexgabriel', 'Alexander Gabriel Aranes', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'alexgabriel@example.com', 'BS Information Technology'),
+('hugzbernados', 'Hugz Christian Bernados', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'hugzbernados@example.com', 'BS Computer Engineering'),
+('mariagracy', 'Maria Gracy De Guzman', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'mariagracy@example.com', 'BS Information Systems'),
+('danehenrich', 'Dane Henrich Garcia', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Other', 'danehenrich@example.com', 'BS Information Technology'),
+('victorluis', 'Victor Luis Ibanez', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'victorluis@example.com', 'BS Computer Engineering'),
+('mykojeff', 'Myko Jefferson Javier', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'mykojeff@example.com', 'BS Software Engineering'),
+('shamellarosa', 'Shamel Larosa', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'shamellarosa@example.com', 'BS Computer Science'),
+('gabmainit', 'Bien Gabriel Mainit', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'gabmainit@example.com', 'BS Information Technology'),
+('tanyamarinelle', 'Tanya Marinelle Manaoat', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'tanyamarinelle@example.com', 'BS Computer Engineering'),
+('normaniii', 'Norman III Marfa', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'normaniii@example.com', 'BS Software Engineering'),
+('eronjay', 'Eron Jay Matira', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'eronjay@example.com', 'BS Information Systems'),
+('justindayne', 'Justin Dayne Bryant Pena', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'justindayne@example.com', 'BS Computer Science'),
+('yhannisg', 'Yhannis Geosh Prudencio', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'yhannisg@example.com', 'BS Information Systems'),
+('yanikatauro', 'Yanika Illi Tauro', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'yanikatauro@example.com', 'BS Information Technology'),
+('arabelaturdanes', 'Arabela Turdanes', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'arabelaturdanes@example.com', 'BS Software Engineering'),
+('nicolephoebe', 'Nicole Phoebe Valentino', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Female', 'nicolephoebe@example.com', 'BS Computer Science'),
+('tawimanamtam', 'Tawi Manamtam', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'tawimanamtam@example.com', 'BS Computer Engineering'),
+('emybautista', 'John Emy Bautista', '$2b$12$6xNIReC2iiu6HXXjpUOgP.Qxo0NoLz31E2p6MY9nIY7xhGI9TLyJq', 'Male', 'emybautista@example.com', 'BS Computer Science');
 
 INSERT INTO member_part_of_org (member_id, org_id, batch, acad_year, acad_sem, committee, role, status) VALUES
 (1, 1, 'hash', 2425, '1', 'Executive', 'President', 'Active'),
