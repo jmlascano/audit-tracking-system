@@ -5,7 +5,7 @@
 ## How to set up
 1. Make sure you have **MariaDB** or **mysql** installed
 2. Make sure you have **NodeJS** installed
-3. Make sure you have the **.env** file (will contain your root password hehe, and other information)
+3. Make sure you have the **.env** file, one for each backend and frontend folders (will contain your root password hehe, and other information)
 4. Log in to the root account (`mysql -u root -p`)
 5. Enter `source org_mgt.sql`
 6. This should add the database, all the tables and tuples that are needed to run Batis
