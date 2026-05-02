@@ -44,7 +44,7 @@ const MemberSignup = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8080/signup/members', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/signup/members`, {
         member_username: data.username,
         member_password: data.password,
         member_email: data.email,

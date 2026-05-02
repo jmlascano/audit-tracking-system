@@ -29,7 +29,7 @@ const DeleteMemberDialog = ({ org_id, member_id, acad_year, acad_sem, orgMemberD
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8080/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`);
       
       toast.success("Successfully deleted member!");
       setIsOpen(false); 

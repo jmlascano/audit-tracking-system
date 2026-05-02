@@ -87,7 +87,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
       }
       params.append('_t', Date.now().toString());
 
-      const response = await fetch(`http://localhost:8080/orgs/${org_id}/fees?${params.toString()}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/fees?${params.toString()}`, {
         headers: {
           'Cache-Control': 'no-cache',
         },
@@ -107,7 +107,7 @@ const OrgFeeTable = ({ org_id = 1 }: OrgFeeTableProps) => {
   const handleDelete = async (fee_id: number) => {
     try {
       setIsFiltering(true);
-      const response = await fetch(`http://localhost:8080/orgs/${org_id}/fees/${fee_id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/fees/${fee_id}`, {
         method: 'DELETE',
       });
       

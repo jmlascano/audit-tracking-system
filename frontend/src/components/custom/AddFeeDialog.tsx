@@ -71,7 +71,7 @@ const AddFeeDialog = ({ org_id, onFeeAdded }: AddFeeDialogProps) => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      await axios.post(`http://localhost:8080/orgs/${org_id}/fees`, values);
+      await axios.post(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/fees`, values);
       toast.success("Successfully added fee!");
       setIsOpen(false);
       onFeeAdded();

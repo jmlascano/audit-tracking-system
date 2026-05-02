@@ -77,7 +77,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
           ([key, value]) => value !== "All" && value !== ""
         )
       );
-      const response = await axios.get(`http://localhost:8080/members/${member_id}/fees`, { params });
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/members/${member_id}/fees`, { params });
       console.log('Fees API response:', response.data);
       setFees(response.data);
     } catch (error) {
@@ -88,7 +88,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/orgs/${member_id}/fees/stats`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/orgs/${member_id}/fees/stats`);
       console.log("Stats response:", response.data);
       setStats(response.data);
     } catch (error) {
@@ -147,7 +147,7 @@ const MembersFeeTable = ({ member_id = 1 }: MembersFeeTableProps) => {
 
   const markFeeAsPaid = async (fee_id: number) => {
     try {
-      await axios.get(`http://localhost:8080/members/${member_id}/fees/${fee_id}/pay`);
+      await axios.get(`${import.meta.env.VITE_API_URL}/members/${member_id}/fees/${fee_id}/pay`);
       console.log(`Fee ${fee_id} marked as paid`);
       await fetchFees(); // Refresh data
     } catch (error) {

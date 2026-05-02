@@ -19,7 +19,7 @@ const OrgEvents = ({ org_id }: OrgEventsParams) => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/orgs/${org_id}/events`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/events`);
         setEvents(response.data);
         setError(null);
       } catch (err) {

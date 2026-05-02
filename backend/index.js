@@ -14,7 +14,7 @@ app.use(urlencoded({ extended: false }));
 // Enable CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend
+    origin: process.env.FRONTEND_URL,
     credentials: true, // allow cookies
   })
 );

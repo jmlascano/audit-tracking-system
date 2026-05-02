@@ -67,7 +67,7 @@ const AddMemberDialog = ({ org_id, onMemberAdded }: AddMemberDialogProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      await axios.post(`http://localhost:8080/orgs/${org_id}/members`, values);
+      await axios.post(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/members`, values);
       
       toast.success("Successfully added member!");
       

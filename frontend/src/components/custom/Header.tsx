@@ -34,7 +34,7 @@ const Header = ({ onLogout, user }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8080/members/${user.id}/fees/edit`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/members/${user.id}/fees/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

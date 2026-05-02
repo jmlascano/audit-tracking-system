@@ -74,7 +74,7 @@ const MembersTable = ({ org_id }: MembersTableProps) => {
       console.log("Sending filters:", params); // debugging
       
       const response = await axios.get(
-        `http://localhost:8080/orgs/${org_id}/members`,
+        `${import.meta.env.VITE_API_URL}/orgs/${org_id}/members`,
         { params }
       );
 

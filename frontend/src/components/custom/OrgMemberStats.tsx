@@ -27,7 +27,7 @@ const OrgMemberStats = ({ org_id }: OrgMemberStatsParams) => {
 
     setLoading(true);
     try { 
-      const response = await fetch(`http://localhost:8080/orgs/${org_id}/members/stats?n=${n}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/members/stats?n=${n}`);
       const data = await response.json();
       
       if (response.ok) {

@@ -33,7 +33,7 @@ const OrgSignup = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8080/signup/orgs', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/signup/orgs`, {
         org_username: data.username,
         org_password: data.password,
         org_email: data.email,

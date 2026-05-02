@@ -60,7 +60,7 @@ const EditFeeDialog: React.FC<EditFeeDialogProps> = ({
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:8080/orgs/${org_id}/fees/${fee.fee_id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/fees/${fee.fee_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

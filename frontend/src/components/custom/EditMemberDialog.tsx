@@ -37,7 +37,7 @@ const AddMemberDialog = ({ org_id, member_id, acad_year, acad_sem, old_status, o
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:8080/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`, 
+      await axios.put(`${import.meta.env.VITE_API_URL}/orgs/${org_id}/members/${member_id}/${acad_year}/${acad_sem}`, 
         {
           status: newStatus 
         }
