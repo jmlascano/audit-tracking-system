@@ -2,6 +2,7 @@ import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { router } from "./routers/router.js";
+import { testConnection } from "./config/database.js";
 
 dotenv.config();
 
@@ -25,7 +26,10 @@ console.log("\x1b[35m\x1b[1m%s\x1b[0m", "˚ʚ♡ɞ˚ Backend Server ˚ʚ♡ɞ˚\
 // App Router
 router(app);
 
-const port = process.env.PORT;
+// Test database connection
+// await testConnection();
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   const consoleDesign = [

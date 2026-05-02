@@ -48,6 +48,7 @@ const testConnection = async () => {
 };
 
 // Initialize connection test
+export { testConnection };
 testConnection();
 
 export default { query };
