@@ -5,6 +5,7 @@ import MembersFeeTable from "@/components/custom/MembersFeeTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Header from "@/components/custom/Header";
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
 
 const MemberPage = () => {
     const navigate = useNavigate();
@@ -12,13 +13,12 @@ const MemberPage = () => {
     const member_id = user.id ? user.id : 1; // Since user could be null, lets just default it to 1 lol
     const member_name = user.name ? user.name : "Young Software Engineers' Society"; // Since user could be null, lets just default it to YSES lol
 
-  const handleLogout = () => {
-        // Remove user data in local storage
-        localStorage.removeItem('user');
-        localStorage.removeItem('userType');
-        navigate('/');
-        
-    }
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    localStorage.removeItem('user');
+    localStorage.removeItem('userType');
+    navigate('/');
+  }
 
   return (
     <>

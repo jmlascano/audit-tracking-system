@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import { useState, type FormEvent } from 'react';
+import axios from 'axios';
 import { Menu, User, Settings, LogOut, CreditCard, Building2, BarChart3, X, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const Header = ({ onLogout, user }) => {
+interface HeaderUser {
+  id: number;
+  name: string;
+  email: string;
+  gender?: string;
+  degree_program?: string;
+}
+
+const Header = ({ onLogout, user }: { onLogout: () => void; user: HeaderUser }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,31 +37,21 @@ const Header = ({ onLogout, user }) => {
     setIsLoading(false);
   };
 
-  const handleSave = async (e) => {
+  const handleSave = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/members/${user.id}/fees/edit`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          member_name: memberName,
-          gender: gender,
-          degree_program: degreeProgram
-        })
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/members/${user.id}/fees/edit`, {
+        member_name: memberName,
+        gender: gender,
+        degree_program: degreeProgram,
       });
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        // Update user object if you have a way to do so
-        // This depends on your app's state management
+      if (response.data.success) {
         closeDialog();
       } else {
-        alert(data.error || 'Failed to update profile');
+        alert(response.data.error || 'Failed to update profile');
       }
     } catch (error) {
       console.error('Update profile error:', error);

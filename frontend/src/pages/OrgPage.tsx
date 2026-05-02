@@ -1,19 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
 import MembersTable from "@/components/custom/MembersTable";
 import OrgFeeTable from "@/components/custom/OrgFeeTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import OrgHeader from "@/components/custom/OrgHeader";
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
 
 const OrgPage = () => {
+  const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const org_id = user.id ? user.id : 1; // Since user could be null, lets just default it to 1 lol
     const org_name = user.name ? user.name : "Young Software Engineers' Society"; // Since user could be null, lets just default it to YSES lol
 
-  const handleLogout = () => {
-    // Remove user data in local storage
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     localStorage.removeItem('user');
     localStorage.removeItem('userType');
+    navigate('/');
   }
 
   return (
@@ -22,7 +25,7 @@ const OrgPage = () => {
       <div className="flex justify-between mx-16 mb-8 mt-16">
         <h1 className="text-3xl font-bold font-inter">Hi, {org_name}!</h1>
         <Button variant="destructive" onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 shadow-lg">
-          <Link to="/">Log Out</Link>
+          Log Out
         </Button>
       </div>
       <Tabs defaultValue="members" className="mx-16 my-8">
