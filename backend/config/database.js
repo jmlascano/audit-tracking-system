@@ -4,6 +4,8 @@ dotenv.config();
 
 const sql = postgres(process.env.DATABASE_URL);
 
+// sql.unsafe() passes params as bound prepared-statement values — safe against injection.
+// "unsafe" refers to bypassing the library's template-literal type inference only.
 export const query = (sqlString, params = []) => sql.unsafe(sqlString, params);
 
 export const testConnection = async () => {
