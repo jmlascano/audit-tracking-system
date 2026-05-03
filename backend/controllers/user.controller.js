@@ -18,7 +18,7 @@ export const signupMember = async (req, res) => {
     if (error.message?.includes('already')) {
       return res.status(409).json({ error: 'Email already exists' });
     }
-    console.error('Supabase signup error:', error);
+    console.error('Supabase signup error:', error.status, error.message, error.code);
     return res.status(500).json({ error: 'Internal server error' });
   }
 
@@ -39,9 +39,8 @@ export const signupMember = async (req, res) => {
 
     return res.status(201).json({ success: true, message: 'Member registered successfully', memberId: member_id });
   } catch (dbError) {
-    // Roll back the Supabase Auth user if DB insert fails
     await supabase.auth.admin.deleteUser(data.user.id);
-    console.error('Member signup DB error:', dbError);
+    console.error('Member signup DB error:', dbError.code, dbError.message);
     if (dbError.code === '23505') {
       return res.status(409).json({ error: 'Username or email already exists' });
     }
@@ -66,7 +65,7 @@ export const signupOrg = async (req, res) => {
     if (error.message?.includes('already')) {
       return res.status(409).json({ error: 'Email already exists' });
     }
-    console.error('Supabase signup error:', error);
+    console.error('Supabase signup error:', error.status, error.message, error.code);
     return res.status(500).json({ error: 'Internal server error' });
   }
 
